@@ -1,0 +1,45 @@
+%h1 Organizational Legal Contact
+
+%p.shortInstructions Please enter information for your organization's Legal Contact (General Counsel).
+
+-# TODO: This ain't right yet
+- if @legal_user.errors.any?
+  %h2 There #{'was'.pluralize(@legal_user.errors.count)} #{@legal_user.errors.count==1 ? 'an error' : "were #{@legal_user.errors.count} errors"}:
+  %ul
+    - @legal_user.errors.to_a.each do |err|
+      %li= err
+
+%div.onboardingContainer-formContainer
+  = form_for(@legal_user, url: '/org_onboarding/create_legal', html: { class: 'defaultForm' }) do |f|
+    .field
+      = f.check_box :legal_is_separate
+      = f.label :legal_is_separate, 'Designated as separate legal group'
+    .field
+      = f.label :first_name, 'Legal Contact Name'
+      %br/
+      .nameContainer
+        = f.text_field :first_name, autofocus: true, autocomplete: 'first_name', placeholder: 'First Name'
+        = f.text_field :last_name, autofocus: true, autocomplete: 'last_name', placeholder: 'Last Name'
+    .field
+      = f.label :email, 'Legal Contact Email'
+      %br/
+      = f.email_field :email, autocomplete: 'email'
+    .field
+      = f.label :phone, 'Legal Contact Phone'
+      %br/
+      = f.phone_field :phone, autocomplete: 'phone'
+
+    = f.fields_for(:address) do |fadd|
+      .field.address
+        = fadd.label :line1, 'Legal Physical Address'
+        = fadd.text_field :line1, placeholder: 'address line 1', class: 'wholeRow'
+        = fadd.text_field :line2, placeholder: 'address line 2', class: 'wholeRow'
+        .cityStateZip
+          = fadd.text_field :city, placeholder: 'city', class: 'city'
+          = fadd.text_field :state, placeholder: 'state', class: 'state'
+          = fadd.text_field :postcode, placeholder: 'zip/postcode', class: 'zip'
+        = fadd.text_field :country, placeholder: 'country'
+
+    .actions.twoButtons
+      = link_to '< Previous', :org_onboarding_new_org, class: 'linkAsButton lesser'
+      = f.submit 'Next >'

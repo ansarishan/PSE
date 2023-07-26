@@ -1,0 +1,40 @@
+%div.sidebarWrapper
+  = render 'shared/sidemenu'
+
+  %div.primaryContainer{'data-controller': 'order-ticket-popper'}
+    = render 'shared/flash'
+
+    %div.traderDashboardContainer
+      %p
+        = render partial: 'org_orders', locals: { orders: current_user.organization.received_quotes.where(state: 'open'),
+                                                  orders_title: 'Received Quotes',
+                                                  orders_desc: 'received quotes' }
+
+      %p
+        = render partial: 'org_orders', locals: { orders: current_user.organization.tradables.where(state: 'open'),
+                                                  orders_title: 'Open Orders / Sent Quotes',
+                                                  orders_desc: 'open orders/quotes' }
+
+      %p
+        = render partial: 'org_orders', locals: { orders: current_user.organization.orders.trade_pending,
+                                                  orders_title: 'Orders Pending Match',
+                                                  orders_desc: 'orders with a pending match' }
+
+      %p
+        = render partial: 'org_orders', locals: { orders: current_user.organization.orders.trade_maturing,
+                                                  orders_title: 'Maturing Orders',
+                                                  orders_desc: 'maturing orders' }
+
+      %p
+        = render partial: 'org_orders_settled', locals: { orders: current_user.organization.orders.trade_settled,
+                                                          orders_title: 'Settled Orders',
+                                                          orders_desc: 'settled orders' }
+      %p
+        = render partial: 'org_orders', locals: { orders: current_user.organization.received_quotes.where(state: 'declined'),
+                                                  orders_title: 'Declined Quotes',
+                                                  orders_desc: 'declined quotes' }
+      %p
+        = render partial: 'org_orders', locals: { orders: current_user.organization.tradables.where(state: ['canceled', 'expired']),
+                                                  orders_title: 'Canceled or Expired Orders/Quotes',
+                                                  orders_desc: 'canceled or expired orders/quotes' }
+

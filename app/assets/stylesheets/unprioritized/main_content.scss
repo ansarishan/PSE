@@ -1,0 +1,44 @@
+$sidebarHandleWidth: 80px;
+
+div.mainContent {
+}
+
+div.primaryContainer {
+	flex: 1 1 auto;
+	padding: 20px;
+	background-color: #f0f5f9;
+}
+
+
+// HEADS UP: This wraps the whole sidebarHandle+primaryContainer pair.
+// ALSO: It styles the sidebar HANDLE, but not the actual menu that pops up.
+//       The menu style is in sidebar_menu.scss.
+div.sidebarWrapper {
+	flex: 1 1 auto;
+
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+
+	div.sidebarHandle {
+		background-color: white;
+		width: $sidebarHandleWidth;
+		text-align: center;
+
+		button.sidebarHandle-menuButton {
+			margin-top: 24px;
+			font-size: 26px;
+			color: #5db2e8;
+
+			i { padding: 4px 6px; }
+			i:hover { background-color: #e5eaee; }
+		}
+	}
+
+	div.primaryContainer {
+		// Doesn't need anything new
+		// but is here just to remind you
+		// that it is also in sidebarWrapper.
+	}
+}
+

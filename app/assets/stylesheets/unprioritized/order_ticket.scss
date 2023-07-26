@@ -1,0 +1,181 @@
+.orderTicketContainer {
+	z-index: 10;
+	position: fixed;
+	top: 0;
+	left: 0;
+	height: 100%;
+	width: 100%;
+	padding: 0;
+	margin: 0;
+	background-color: rgba(0,0,0,0.2);
+
+	div.orderTicket {
+		color: #143e64;
+
+		z-index: 20;
+		position: relative;
+		margin: 0 auto;
+		top: 0.1em;
+		width: 600px;
+
+		background-color: white;
+		box-shadow: 3px 3px 6px rgba(0,0,0,0.15);
+		border-radius: 6px;
+
+		padding: 1em 0 1.25em 0;
+
+		h1 {
+			margin: 0 0 1em 1.5em;
+			font-size: 1.2em;
+		}
+
+		div.staticDataContainer {
+			margin: 0 40px 20px 40px;
+			margin-left: 40px;
+			margin-bottom: 20px;
+			div.row {
+				text-align: center;
+				margin-bottom: 5px;
+				div.label, div.value {
+					text-align: left;
+					width: 33%;
+					display: inline-block;
+					vertical-align: top;
+				}
+			}
+		}
+
+		div.label {
+			font-weight: bold;
+			div.units, div.moreInfo {
+				font-size: 0.8em;
+				font-weight: normal;
+			}
+			div.moreInfo { margin-top: 10px; margin-right: 5px; }
+		}
+
+		div.formContainer {
+			input[type=number] {
+				width: 80%;
+				text-align: right;
+			}
+
+			div.row {
+				padding: 0.5em 1.5em;
+
+				div.label, div.upside, div.downside, div.sideHeader {
+					box-sizing: border-box;
+					text-align: left;
+					display: inline-block;
+					vertical-align: top;
+					overflow: hidden;
+				}
+
+				div.label {
+					width: 35%;
+					padding-right: 5px;
+				}
+
+				div.sideHeader {
+					width: 30%;
+					font-weight: bold;
+
+					span.counter { font-weight: normal }
+				}
+
+				div.upside { width: 30%; }
+				div.downside { width: 30%; }
+
+				div.upside, div.downside {
+					width: 30%;
+
+					.vcenter { margin-top: 10px; } // this is a kludge
+				}
+
+				div.sublabel {
+					margin: 5px 0;
+				}
+
+			}
+			div.row.sideHeaders { padding-bottom: 10px; }
+
+			div.row.shade {
+				background-color: rgba(0,0,0,0.05);
+			}
+		}
+
+
+		div.actions {
+			margin-top: 20px;
+			margin-left: 40px;
+		}
+
+		button, input[type=submit] {
+			color: white;
+			background-color: #5DB2E8;
+			padding: 15px 30px;
+			border-radius: 5px;
+			margin-right: 20px;
+		}
+		button:hover, input[type=submit]:hover {
+			background-color: #0a45a1;
+			cursor: pointer;
+			color: white;
+		}
+		button:disabled, input[type=submit]:disabled {
+			color: #b8b8b8;
+			background-color: #f5f5f5;
+			cursor: not-allowed;
+			border: 0;
+		}
+
+		.lesser {
+			color: #595959;
+			border: 1px solid #d9d9d9;
+			background-color: white;
+		}
+		.lesser:not([disabled]):hover {
+			background-color: #0a45a1;
+			color: white;
+		}
+		.danger:not([disabled]) {
+			color: $hardRed;
+			background-color: $weakRed;
+		}
+		.danger:not([disabled]):hover {
+			background-color: $hardRed;
+			color: white;
+		}
+		button.toggler {
+			background-color: #3b84b6;
+			padding: 5px;
+		}
+		button.toggler:hover {
+			background-color: #0a45a1;
+		}
+
+		div.calc {
+			button {
+				background-color: transparent;
+				padding: 0;
+				color: #40b3ed;
+				font-weight: bold;
+				padding-bottom: 10px;
+			}
+		}
+	}
+  div.orderTicket.wider {
+    width: 800px;
+  }
+
+  div.separator { border-top: 1px solid silver; }
+}
+
+div.orderTicket, div.calculatorContainer {
+	input[type=number] {
+		padding: 10px 10px;
+		border-radius: 5px;
+		border: 1px solid #d9d9d9;
+		box-sizing: border-box;
+	}
+}

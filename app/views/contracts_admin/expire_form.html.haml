@@ -1,0 +1,17 @@
+%div.primaryContainer.expireFormContainer
+
+  = render 'shared/flash'
+
+  %h1 Expire a Drug Period
+
+  %h2= @drug_period.display_name
+
+  =form_for(@drug_period, url: contracts_admin_expire_path, html: { class: 'defaultForm' }) do |f|
+    .field
+      = f.label :net_revenue_actual, 'Actual Net Revenue for this Period'
+      %br/
+      = f.number_field :net_revenue_actual, step: 0.0001
+
+    .actions
+      = f.submit 'Expire the Period'
+

@@ -1,0 +1,162 @@
+body.home {
+}
+
+div.home {
+	background-image: url(asset-path('pile-of-pills.bw.jpeg'));
+	background-attachment: fixed;
+	background-size: cover;
+  font-size: 1.5vw;
+
+  a.linkAsButton {
+    display: inline-block;
+    color: white;
+    background-color: #2a75d1;
+    padding: 0.25em 1em;
+    border-radius: 5px;
+    text-decoration: none;
+    border: 1px solid #2a75d1;
+    font-size: 1vw;
+  }
+
+  img {
+    max-width: 100%;
+    height: auto;
+  }
+
+	div.loginLinkContainer {
+    float: right;
+    vertical-align: middle;
+
+		a {
+			background-color: white;
+			color: $logoColorDark;
+			border-color: $logoColorDark;
+		}
+
+		a:hover {
+			background-color: $logoColorLight;
+		}
+	}
+
+	div.text {
+		align-items: center;
+		justify-content: center;
+	}
+
+	div.picContainer {
+		display: flex;
+		align-items: center;
+		justify-content: center;
+	}
+
+	div.band {
+		margin: 6em 6em;
+		border-radius: 10px;
+		background-color: white;
+	}
+
+	div.band.title {
+		border-bottom: 1px solid $logoColorLight;
+		margin: 0;
+		border-radius: 0;
+		background: $logoColorDark;
+		text-align: center;
+    max-width: 100%;
+	}
+
+	div.band.description {
+    text-align: left;
+    border: 1px solid silver;
+		display: flex;
+		flex-direction: row;
+
+		div.picContainer {
+			order: 2;
+			padding: 1em 1em 1em 0;
+		}
+		div.text {
+			display: flex;
+			order: 1;
+			padding: 1em;
+		}
+	}
+
+	div.band.talking {
+    text-align: left;
+    border: 1px solid silver;
+		display: flex;
+		flex-direction: row;
+
+		div.picContainer {
+			order: 1;
+			padding: 1em 0 1em 1em;
+			vertical-align: center;
+		}
+		div.text {
+			order: 2;
+			padding: 1em;
+
+
+			p.guy1 {
+				text-align: left;
+				padding-right: 30%;
+			}
+			p.guy2 {
+				text-align: right;
+				padding-left: 30%;
+			}
+		}
+	}
+
+	div.band.howItWorks {
+    border: 1px solid silver;
+		padding-top: 3em;
+		padding-bottom: 3em;
+
+		div.head {
+			text-align: center;
+			font-weight: bold;
+			font-size: 3vw;
+      padding-bottom: 1em;
+    }
+
+		div.steps {
+			margin-top: 1em;
+
+			display: flex;
+			flex-direction: row;
+			justify-content: center;
+
+			div.step {
+				margin-left: 1em;
+				margin-right: 1em;
+
+				text-align: center;
+
+				div.icon {
+					color: #092A6D;
+					font-size: 4em;
+					margin-bottom: 1em;
+				}
+
+				div.caption {
+					div.header {
+						font-weight: bold;
+						margin-bottom: 1em;
+					}
+				}
+			}
+		}
+	}
+
+	div.footer {
+		text-align: center;
+		div {
+			display: inline-block;
+			background-color: white;
+			padding: 0.25em;
+			text-align: center;
+			border-radius: 5px;
+		}
+	}
+}

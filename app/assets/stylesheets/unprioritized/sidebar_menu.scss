@@ -1,0 +1,144 @@
+div.sidebarMenuContainer {
+	background-color: white;
+	box-shadow: 3px 4px 4px rgba(0, 0, 0, 0.1);
+
+	width: 224px;
+	min-height: 400px;
+	margin-bottom: 100px;
+
+	position: absolute;
+	left: 0;
+	top: 65px;
+
+	font-size: 14px;
+	color: #505050;
+
+	div.sidebarMenu-closeButtonContainer {
+		text-align: right;
+
+		button {
+			margin-right: 10px;
+			margin-top: 10px;
+			font-size: 26px;
+			color: #5db2e8;
+			
+			i { padding: 4px 8px; }
+			i:hover { background-color: #e5eaee; }
+		}
+	}
+
+	div.sidebarMenu-header {
+		margin-left: 34px;
+		margin-bottom: 6px;
+		font-weight: bold;
+	}
+
+	div.sidebarMenu-regionDropdownContainer {
+		margin-left: 32px;
+		margin-right: 32px;
+		margin-bottom: 40px;
+
+		div.edd-root:not(.edd-root-disabled):not(.edd-root-open) .edd-head:hover {
+			border-color: #40B3ED;
+		}
+
+		div.edd-head {
+			height: 48px;
+			border: 1px solid #40B3ED;
+			border-radius: 4px;
+			background-color: white;
+			color: #40B3ED;
+			width: 100%;
+			cursor: pointer;
+		}
+
+		div.edd-value {
+			position: absolute;
+			top: 50%;
+			font-weight: bold;
+			margin-top: 0px;
+			margin-bottom: 0px;
+			-ms-transform: translateY(-50%);
+			transform: translateY(-50%);
+		}
+
+		div.edd-body {
+			border: 1px #cccccc solid;
+			background-color: #eeeeee;
+			padding: 5px;
+			margin-top: -10px;
+		}
+
+		div.edd-option-focused:not(.edd-option-disabled) {
+			background-color: #bbbbbb;
+		}
+	}
+
+	div.sidebarMenu-companyExpanders {
+
+		i {
+			color: #40B3ED;
+			display: inline-block;
+			margin-right: 5px;
+		}
+
+		button {
+			width: 100%;
+			padding: 16px 16px 16px 0;
+			text-align: left;
+		}
+
+		div.company {
+			border-top: 1px solid #e6e6e6;
+			border-bottom: 1px solid #e6e6e6;
+
+			button {
+				padding-left: 16px;
+				font-weight: bold;
+			}
+		}
+
+		div.drugExpanders {
+			background-color: #F0F5F9;
+		}
+
+		div.drug {
+			border-top: 1px solid #e6e6e6;
+
+			button {
+				padding-left: 16px;
+			}
+		}
+
+		div.periodTypeExpanders {
+			background-color: #F0F5F9;
+		}
+
+		div.periodType {
+			border-top: 1px solid #e6e6e6;
+
+			button {
+				padding-left: 32px;
+			}
+		}
+
+		div.periods {
+			a {
+				color: inherit; 
+				display: block;
+				border-top: 1px solid #e6e6e6;
+				padding: 16px 16px 16px 50px;
+				text-decoration: none;
+			}
+			a:hover {
+				color: #40B3ED;
+				background-color: #e6eff4;
+				text-decoration: none;
+			}
+
+			a.selectedPeriod {
+				font-weight: bold;
+			}
+		}
+	}
+}

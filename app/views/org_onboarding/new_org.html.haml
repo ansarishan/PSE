@@ -1,0 +1,47 @@
+%h1 Organizational Contact Information
+
+%p.shortInstructions Please enter information for your organization's main contact person.
+
+-# TODO: This ain't right yet
+- if @user.errors.any?
+  %h2 There #{'was'.pluralize(@user.errors.count)} #{@user.errors.count==1 ? 'an error' : "were #{@user.errors.count} errors"}:
+  %ul
+    - @user.errors.to_a.each do |err|
+      %li= err
+
+%div.onboardingContainer-formContainer
+  = form_for(@user, url: '/org_onboarding/create_org', html: { class: 'defaultForm' }) do |f|
+    .field
+      = f.label :first_name, 'Main Contact Name'
+      %br/
+      .nameContainer
+        = f.text_field :first_name, autofocus: true, autocomplete: 'first_name', placeholder: 'First Name'
+        = f.text_field :last_name, autofocus: true, autocomplete: 'last_name', placeholder: 'Last Name'
+    .field
+      = f.label :email, 'Main Contact Email'
+      %br/
+      = f.email_field :email, autocomplete: 'email'
+    .field
+      = f.label :phone, 'Main Contact Phone'
+      %br/
+      = f.phone_field :phone, autocomplete: 'phone'
+
+    = f.fields_for(:organization) do |forg|
+      .field
+        = forg.label :name, 'Company Name'
+        %br/
+        = forg.text_field :name
+
+    = f.fields_for(:address) do |fadd|
+      .field.address
+        = fadd.label :line1, 'Company Address'
+        = fadd.text_field :line1, placeholder: 'address line 1', class: 'wholeRow'
+        = fadd.text_field :line2, placeholder: 'address line 2', class: 'wholeRow'
+        .cityStateZip
+          = fadd.text_field :city, placeholder: 'city', class: 'city'
+          = fadd.text_field :state, placeholder: 'state', class: 'state'
+          = fadd.text_field :postcode, placeholder: 'zip/postcode', class: 'zip'
+        = fadd.text_field :country, placeholder: 'country'
+
+    .actions
+      = f.submit 'Next >'

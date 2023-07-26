@@ -1,0 +1,9 @@
+- case current_user.role
+- when 'admin'
+  = render 'admin'
+- when 'org_admin'
+  = render 'org_admin'
+- when 'legal'
+  = render 'legal'
+- when 'trader', 'analyst'
+  = render 'trader'

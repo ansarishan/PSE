@@ -1,0 +1,26 @@
+Attention, #{@lawyer.name_for_display}:
+
+An order match has been proposed for the following contract:
+
+<%
+dp = @order.drug_instrument.drug_period
+
+my_terms = @order.my_terms
+their_terms = @order.their_terms
+%>
+
+Drug: <%= "[#{dp.region.name}/#{dp.drug.drug_company.name}] #{dp.drug.brand_name}" %>
+Period: <%= "[#{dp.period_type}] #{dp.label}" %>
+Amount: <%= @order.amount %>
+Net Revenue Projection: <%= @order.drug_instrument.net_revenue_projection %>
+
+Your terms:
+* <%= "#{@order.above_or_below} projection" %>
+* <%= "Leverage Factor: #{my_terms[:lev]}x" %>
+* <%= "Return Cap: #{my_terms[:cap]}%" %>
+
+Counter terms:
+* <%= "#{Order.side_to_above_or_below(@order.other_side)} projection" %>
+* <%= "Leverage Factor: #{my_terms[:lev]}x" %>
+* <%= "Return Cap: #{my_terms[:cap]}%" %>
+

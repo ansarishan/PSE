@@ -1,0 +1,33 @@
+%div.orgOrdersContainer
+  %table
+    %colgroup
+      %col.middle{span: 6}
+    %tr
+      %th.tableTitle{colspan: 6}
+        %h2= orders_title
+    %tr
+      %th.center.actions
+      %th.center Drug
+      %th.center Period
+      %th.center.wider
+        My 
+        %br/
+        Order Status
+      %th.center.wider
+        Counterparty
+        %br/
+        Order Status
+      %th.center.wider Trade Status
+    - if orders.count < 1
+      %tr
+        %td.tableTitle{colspan: 6}
+          = "You do not have any #{orders_desc}."
+    -else
+      - orders.each do |ord|
+        %tr.instrumentRow
+          %td.actions= link_to 'View', edit_order_path(ord)
+          %td= ord.drug_instrument.drug_period.drug.brand_name
+          %td= ord.drug_instrument.drug_period.label
+          %td= ord.state.upcase
+          %td= ord.trade.counterparty_order(current_user.organization.id).try(:state).try(:upcase)
+          %td= ord.trade.state.upcase

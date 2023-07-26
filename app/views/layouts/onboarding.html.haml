@@ -1,0 +1,25 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title PharmaSharesExchange
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+  %body.flexColumn
+    %div.mainHeader
+      %div.mainHeader-logo
+        = render 'layouts/header_logo'
+      %div.mainHeader-menu
+        - (@header_menu_items || []).each do |item|
+          %div.mainHeader-menuItem
+            = link_to(item[:text], item[:url])
+
+    %div.mainContent
+      %div.onboardingContainer
+        = render 'shared/flash'
+        = yield
+
+    %div.onboardFooter
+      %div.onboardFooter-content &copy; 2019, SVBLeerink, All Rights Reserved

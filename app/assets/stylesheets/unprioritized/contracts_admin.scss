@@ -1,0 +1,73 @@
+div.primaryContainer.contractsAdminContainer {
+
+	$indentIncrement: 30px;
+
+	h4,h5,h6,ul {
+		margin-top: 10px;
+		margin-bottom: 10px;
+		font-size: 16px;
+	}
+
+	div.drugco {
+		margin-left: $indentIncrement;
+		margin-bottom: 20px;
+		padding: 10px;
+		background-color: rgba(0, 0, 0, 0.1);
+
+		h3 { margin: 0 0 10px 0; }
+
+		div.drug {
+			margin-left: $indentIncrement;
+
+			h4 {}
+
+			div.period_type {
+				margin-left: $indentIncrement;
+
+				h5{}
+
+				div.period {
+					margin-left: $indentIncrement;
+
+					h6 { display: inline-block; }
+
+					span.status {
+						display: inline-block;
+						border: 1px solid black;
+						margin-right: 10px;
+						font-weight: bold;
+						background-color: white;
+						padding: 3px;
+					}
+					span.status.closed { color: $hardRed; border-color: $hardRed; }
+					span.status.open { color: $hardGreen; border-color: $hardGreen; }
+
+					.linkAsButton {
+						padding: 5px 5px;
+						margin-left: 5px;
+						margin-right: 5px;
+					}
+
+					.linkAsButton.expire {
+						margin-left: 40px;
+						background-color: black;
+					}
+					.linkAsButton.expire:hover {
+						background-color: #770000;
+					}
+
+					ul {
+					}
+				}
+			}
+		}
+	}
+}
+
+
+div.primaryContainer.expireFormContainer {
+	input {
+		width: 200px !important;
+	}
+}
+

@@ -1,0 +1,76 @@
+%div.orgOrdersContainer
+  %table
+    %colgroup
+      %col.middle{span: 6}
+      %col{span: 3}
+      %col.middle
+      %col{span: 3}
+    %tr
+      %th.tableTitle{colspan: 13}
+        %h2= orders_title
+    %tr
+      %th.center.actions
+      %th.center Drug
+      %th.center Period
+      %th.center Status
+      %th.center Type
+      %th.center Side
+      %th.farLeft Amount
+      %th.left Leverage<br/>Factor
+      %th.left Return Cap
+      %th.center
+        Net Revenue
+        %br/
+        Projection
+        %span.weak (Millions)
+      %th.right Return Cap
+      %th.right Leverage<br/>Factor
+      %th.farRight Amount
+    - if orders.count < 1
+      %tr
+        %td.tableTitle{colspan: 12}
+          = "You do not have any #{orders_desc}."
+    - else
+      - orders.each do |ord|
+        %tr.instrumentRow
+          %td.actions
+            - if current_user.trader? && ord.open?
+              - if current_user.organization_id == ord.organization_id
+                =link_to icon('far', 'times-circle'), ord, method: :delete, remote: true, class: 'orderCancelIcon',
+                  data: { 'controller': 'confirm-modal',
+                          'action': 'ajax:beforeSend->confirm-modal#show',
+                          'target': 'confirm-modal.link',
+                          'confirm-text': "Are you sure you wish to cancel this #{ord.type.downcase}? This action cannot be undone.",
+                          'confirm-title': "Confirm #{ord.type} Cancel",
+                          'confirm-commit': "Yes, cancel the #{ord.type.downcase}",
+                          'confirm-cancel': 'No, do not cancel' }
+              - else # this is a received quote
+                =link_to icon('fas', 'minus-circle'), quote_decline_path(ord), method: :patch, remote: true, class: 'orderCancelIcon',
+                  data: { 'controller': 'confirm-modal',
+                          'action': 'ajax:beforeSend->confirm-modal#show',
+                          'target': 'confirm-modal.link',
+                          'confirm-text': "Are you sure you wish to decline this #{ord.type.downcase}? This action cannot be undone.",
+                          'confirm-title': "Confirm #{ord.type} Decline",
+                          'confirm-commit': "Yes, decline the #{ord.type.downcase}",
+                          'confirm-cancel': 'No, do not decline' }
+                =link_to icon('far', 'check-circle'), quote_accept_path(ord), method: :patch, remote: true, class: 'quoteAcceptIcon',
+                  data: { 'controller': 'confirm-modal',
+                          'action': 'ajax:beforeSend->confirm-modal#show',
+                          'target': 'confirm-modal.link',
+                          'confirm-text': "Are you sure you wish to accept this #{ord.type.downcase}? This action cannot be undone.",
+                          'confirm-title': "Confirm #{ord.type} Accept",
+                          'confirm-commit': "Yes, accept the #{ord.type.downcase}",
+                          'confirm-cancel': 'No, do not accept' }
+          %td= ord.drug_instrument.drug_period.drug.brand_name
+          %td= link_to(ord.drug_instrument.drug_period.label, book_path(ord.drug_instrument.drug_period_id))
+          %td= ord.state.upcase
+          %td= ord.type.upcase
+          %td= ord.side.upcase
+          %td= ord.amount if ord.up?
+          %td= ord.drug_instrument.up_leverage_factor
+          %td= ord.drug_instrument.up_return_cap
+          %td= ord.drug_instrument.net_revenue_projection
+          %td= ord.drug_instrument.down_return_cap
+          %td= ord.drug_instrument.down_leverage_factor
+          %td= ord.amount if ord.down?
+

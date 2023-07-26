@@ -1,0 +1,27 @@
+%div.primaryContainer
+
+  = render 'shared/flash'
+
+  %h1 System User List
+
+  %h2 System Admins
+  
+  %ul
+  - User.where(role: 'admin').each do |admin|
+    %li= admin.username
+  
+  %h2 Organizations
+  
+  - if Organization.count < 1
+    %p There are no Organizations.
+  - else
+    %ul
+    - Organization.all.each do |org|
+      %li
+        = org.name.present? ? org.name : 'Unnamed (invited admin has not filled this in yet)'
+        %ul
+          - org.users.each do |user|
+            %li
+              %strong= user.role
+              = user.username.presence || "#{user.email} not yet onboarded"
+

@@ -1,0 +1,123 @@
+div.onboardingContainer {
+	margin: auto;
+
+	padding-top: 56px;
+
+	h1 {
+		margin-top: 0;
+		text-align: center;
+	}
+
+	p.shortInstructions { text-align: center }
+
+	div.bigCheck {
+		margin-top: 100px;
+		margin-bottom: 100px;
+		text-align: center;
+		font-size: 200px;
+		color: #4d7321;
+	}
+
+	div.error {
+		margin-top: 40px;
+		color: red;
+	}
+
+	div.onboardingContainer-eulaContainer {
+		max-width: 540px;
+		margin: auto;
+
+		div.mockTextarea {
+			height: 500px;
+			border: 1px solid #979797;
+			border-radius: 5px;
+			overflow: auto;
+			resize: both;
+			padding: 20px;
+		}
+	}
+
+	div.onboardingContainer-formContainer {
+		max-width: 540px;
+		margin: auto;
+
+		form {
+			margin: auto;
+		}
+
+		div.actions {
+			text-align: right;
+			margin-bottom: 60px;
+		}
+
+		div.actions.twoButtons {
+			display: flex;
+			flex-direction: row;
+			text-align: justify;
+			justify-content: space-between;
+		}
+
+		div.actions.prevSkipNext {
+			display: flex;
+			flex-direction: row;
+			text-align: justify;
+			justify-content: space-between;
+
+			.skipNext {
+				input:first_of_type { margin-right: 20px; }
+			}
+		}
+
+		div.actions.no-top-margin {
+			margin-top: 0px;
+		}
+
+		div.nameContainer {
+			display: flex;
+			flex-direction: row;
+
+			input:first-of-type { margin-right: 10px; }
+			input:last-of-type { margin-left: 10px; }
+		}
+
+		div.field.address {
+			.wholeRow {
+				display: block;
+				margin-bottom: 10px;
+			}
+
+			.cityStateZip {
+				display: flex;
+				flex-direction: row;
+				margin-bottom: 10px;
+
+				input.city { width: 50%; margin-right: 10px; }
+				input.state { width: 20%; margin-left: 10px; margin-right: 10px; }
+				input.zip { width: 30%; margin-left: 10px; }
+			}
+		}
+	}
+
+	div.onboardingContainer-completed-paras {
+		max-width: 600px;
+		margin: auto;
+	}
+
+	div.onboardingContainer-completed-actions {
+		margin: 60px auto;
+		max-width: 400px;
+		text-align: right;
+	}
+}
+
+
+div.onboardFooter {
+	flex-shrink: 0;
+
+	div.onboardFooter-content {
+		font-size: 16px;
+		color: $defaultTextColor;
+		text-align: center;
+		margin-bottom: 50px;
+	}
+}

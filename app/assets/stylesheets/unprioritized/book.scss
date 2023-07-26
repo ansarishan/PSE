@@ -1,0 +1,159 @@
+div.bookPrimaryContainer {
+	padding-left: 40px !important;
+}
+
+div.bookContainer {
+
+	h1 {
+		margin-top: 10px;
+		margin-bottom: 20px;
+		font-size: 16px;
+		color: #40B3ED;
+	}
+
+  .tradeBespokeButton {
+    button {
+      //background-color: $logoColorLight; //#bbddff;
+      //background-image: linear-gradient(to right, #a1c4fd 0%, #c2e9fb 51%, #a1c4fd 100%);
+			// background-color: #0a45a1;
+      border-radius: 4px;
+      height: 3em;
+      padding: 0.75em;
+      font-size: 13px;
+      font-weight: bold;
+			color: white;
+			border: 1px solid $logoColorDark;
+			background-color: #5DB2E8;
+    }
+
+    button:hover {
+			background-color: #0a45a1;
+			color: white;
+    }
+  }
+
+	table {
+		border-collapse: collapse;
+		background-color: white;
+
+		tr.tradeRow td.netrev {
+			background-image: linear-gradient(to left, white 0%, white 10%, #d1d1f1 50%, white 90%);
+		}
+
+
+		th,td {
+			min-width: 90px;
+			text-align: center;
+			white-space: nowrap;
+			padding-left: 5px;
+			padding-right: 5px;
+		}
+
+		th {
+			height: 44px;
+			font-size: 13px;
+			font-weight: bold;
+			padding-bottom: 4px;
+			color: #143E64;
+			vertical-align: bottom;
+			line-height: 20px;
+
+			.weak { font-weight: normal; }
+		}
+
+		td {
+			height: 38px;
+			font-size: 12px;
+			border-bottom: 2px solid #D6E5F1;
+		}
+
+		tr.colorBars {
+			td {
+				height: 8px;
+				border: 0;
+			}
+
+			td.farLeft { background-color: $hardGreen; }
+			td.left { background-color: $focusGreen; }
+			td.netrev { background-color: #506e89; background-image: none;}
+			td.right { background-color: $focusRed; }
+			td.farRight { background-color: $hardRed; }
+		}
+
+		td.tradeButton {
+			padding-left: 5px;
+			padding-right: 5px;
+
+			button {
+				background-color: white;
+				color: #4083ed;
+				border: 1px solid #5db2e8; // #4083ed;
+				border-radius: 4px;
+				width: 100%;
+				height: 34px;
+			}
+
+			button:hover { background-color: #bbddff; }
+		}
+
+		tr.instrumentRow.coreContractRow {
+			background-image: linear-gradient(to bottom,#bbbbdd 0%,white 70%);
+			border: 3px #506e89 solid;
+			border-top: 0px;
+		}
+
+		tr.instrumentRow.tradeRow.myUp {
+			td.up { background-color: $weakGreen; }
+		}
+		tr.instrumentRow.tradeRow.myDown {
+			td.down { background-color: $weakRed; }
+		}
+
+		tr.instrumentRow div.onFocus { display: none; }
+		tr.instrumentRow:hover div.onFocus { display: block; }
+		tr.instrumentRow div.offFocus { display: block; }
+		tr.instrumentRow:hover div.offFocus { display: none; }
+
+		.orderCancelIcon {
+			text-decoration: none;
+			color: $hardRed;
+
+			i { font-size: 1.5em; }
+			a { text-decoration: none; }
+			a:visited { color: $hardRed; }
+			a:link { color: $hardRed; }
+		}
+		.orderCancelIcon:hover { color: $hardRed; }
+
+		th.actions, td.actions {
+			padding-right: 1em;
+			padding-left: 1em;
+			text-align: right;
+			min-width: 18px;
+		}
+		th.up.actions, td.up.actions { text-align: right; }
+		th.down.actions, td.down.actions { text-align: left; }
+		td.actions a:visited { color: $defaultTextColor; }
+		td.actions a:link { color: $defaultTextColor; }
+		td.actions:hover a { color: $hardRed; }
+
+		tr.sourceRow {
+			background-color: #bbbbdd;
+			border: 3px #506e89 solid;
+			border-bottom: 0px;
+
+			th {
+				height: auto;
+				text-align: center;
+				font-weight: normal;
+
+				div.label {
+					font-weight: bold;
+				}
+				div.source {
+				}
+			}
+		}
+	}
+}
+

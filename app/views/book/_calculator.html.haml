@@ -1,0 +1,95 @@
+%div.calculatorContainer.hidden{'data-target': 'calculator.calcPane'}
+
+  %div.closeButtonContainer
+    %button#closeSidemenuButton{'data-action': 'click->calculator#hide'}
+      = icon('fas', 'times')
+
+  %div.row.input.currentProjection
+    %div.label
+      Contract Projection
+      %div.units (In Millions)
+    %div.field
+      %input{type: 'number', step: 0.00001,
+                             'data-target': 'calculator.contractProjection',
+                             'data-action': 'change->calculator#onChange'}
+
+  %div.row.input
+    %div.label
+      Example Period Revenue
+      %div.units (In Millions)
+    %div.field
+      %input{type: 'number', step: 0.00001,
+                             'data-target': 'calculator.examplePeriodRevenue',
+                             'data-action': 'change->calculator#onChange'}
+
+  %div.row.input
+    %div.label
+      Trading Amount
+      %div.units (In Thousands)
+    %div.field
+      %input{type: 'number', min: 50,
+                             step: 50,
+                             'data-target': 'calculator.tradingAmount',
+                             'data-action': 'change->calculator#onChange'}
+
+
+  %div.row.headers
+    %div.empty
+    %div.header Leverage
+    %div.header Return Cap %
+
+  %div.row.input.topline
+    %div.label.vcenter.green
+      %hr.littleBar
+      Above
+    %div.halfField
+      %input{type: 'number', min: 1,
+                             'data-target': 'calculator.aboveLeverage',
+                             'data-action': 'change->calculator#onChange'}
+    %div.halfField
+      %input{type: 'number', min: 1,
+                             'data-target': 'calculator.aboveReturnCap',
+                             'data-action': 'change->calculator#onChange'}
+    
+  %div.row.input.topline
+    %div.label.vcenter.red
+      %hr.littleBar
+      Below
+    %div.halfField
+      %input{type: 'number', min: 1,
+                             'data-target': 'calculator.belowLeverage',
+                             'data-action': 'change->calculator#onChange'}
+    %div.halfField
+      %input{type: 'number', min: 1,
+                             'data-target': 'calculator.belowReturnCap',
+                             'data-action': 'change->calculator#onChange'}
+  %div.row.input.topline
+    %div.label.vcenter
+      Your Side
+    %div.field.yourSideToggle
+      %div.toggleAboveLabel{'data-target': 'calculator.toggleAboveLabel'} Above
+
+      %div.toggleswitch
+        %input.toggleswitch-checkbox#calcSideToggleSwitch{type: 'checkbox',
+                                                          name: 'toggleswitch',
+                                                          'data-target': 'calculator.sideToggle',
+                                                          'data-action': 'change->calculator#onChange'}
+        %label.toggleswitch-label{for: 'calcSideToggleSwitch'}
+
+      %div.toggleBelowLabel{'data-target': 'calculator.toggleBelowLabel'} Below
+
+  %div.row.info.topline
+    %div.label
+      Max Return
+    %div.val{'data-target': 'calculator.maxReturn'}
+
+  %div.row.info
+    %div.label
+      Max Loss
+    %div.val{'data-target': 'calculator.maxLoss'}
+
+  %div.row.info
+    %div.label
+      Total Return/Loss
+    %div.val{'data-target': 'calculator.totalReturnOrLoss'}
+

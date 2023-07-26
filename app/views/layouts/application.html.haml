@@ -1,0 +1,44 @@
+!!!
+%html
+  %head
+    %meta{:content => "text/html; charset=UTF-8", "http-equiv" => "Content-Type"}/
+    %title PharmaSharesExchange
+    = csrf_meta_tags
+    = csp_meta_tag
+    = stylesheet_link_tag 'application', media: 'all', 'data-turbolinks-track': 'reload'
+    = javascript_pack_tag 'application', 'data-turbolinks-track': 'reload'
+  %body.flexColumn
+    %div.mainHeader
+      %div.mainHeader-logo
+        = render 'layouts/header_logo'
+      %div.mainHeader-menu
+        - (@header_menu_items || []).each do |item|
+          %div.mainHeader-menuItem
+            = link_to(item[:text], item[:url])
+        - if current_user.try(:username).present?
+          %div.mainHeader-menuItem{'data-controller': 'dropdown'}
+            %button#usernameMenuOpener{'data-action': 'click->dropdown#toggle click@window->dropdown#hide'}
+              = icon('fas', 'user-circle')
+              = current_user.username
+              = icon('fas', 'caret-down')
+
+            %div.mainHeader-userDropdownWrapper.hidden{'data-target': 'dropdown.menuWrapper'}
+              %div.mainHeader-userDropdown{'data-target': 'dropdown.visibleMenu'}
+                %div.userInfo
+                  %div.role= current_user.pretty_role.upcase
+                  %div.name= current_user.name_for_display
+                  -if current_user.organization
+                    %div.org= icon('fas', 'building') + ' ' + current_user.organization.name
+                  %div.logoutLink
+                    = link_to(icon('fas', 'sign-out-alt') + ' Logout', destroy_user_session_path, method: :delete, id: 'logoutLink')
+
+
+    %div.mainContent
+      -# WARNING: notices and alerts are not here!
+                  you need to put them in your views!
+      = yield
+
+-# Looks like new design doesn't have this.
+    TODO delete this when I'm sure. (also corresponding style in main_header_footer.scss
+    %div.mainFooter
+      %div.mainFooter-content &lt;Footer artwork TBA&gt;

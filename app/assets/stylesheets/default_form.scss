@@ -1,0 +1,94 @@
+a.linkAsButton {
+	display: inline-block;
+	color: white;
+	background-color: #2a75d1;
+	padding: 15px 30px;
+	border-radius: 5px;
+	text-decoration: none;
+	border: 1px solid #2a75d1;
+}
+a.linkAsButton:hover {
+	background-color: #0a45a1;
+	cursor: pointer;
+}
+
+form.defaultForm {
+
+	font-size: 16px;
+
+	div.field.new_section {
+		margin-top: 50px;
+	}
+
+	div.field {
+		margin-top: 40px;
+		width: 100%;
+
+		// this is the text-input-field placeholder text
+		::placeholder {
+			color: #bbbbbb;
+		}
+
+		label {
+			display: inline-block;
+			margin-bottom: 10px;
+		}
+		input[type=text],input[type=email],input[type=password],input[type=tel],input[type=number] {
+			width: 100%;
+			padding: 10px 10px;
+			border-radius: 5px;
+			border: 1px solid #cccccc;
+			box-sizing: border-box;
+		}
+		input[type=checkbox] {
+			// CSS checkboxes are a shitshow.
+			// TODO: come back to this later: https://github.com/MelanieL/custom_css_checkbox/blob/master/style.css
+		}
+	}
+
+	div.actions {
+		width: 100%;
+		margin-top: 40px;
+
+		input {
+			color: white;
+			background-color: #2a75d1;
+			padding: 15px 30px;
+			border-radius: 5px;
+			border: 1px solid #2a75d1;
+		}
+		input:hover {
+			background-color: #0a45a1;
+			cursor: pointer;
+			color: white;
+		}
+		input:disabled {
+			background-color: #9b9b9b;
+			cursor: not-allowed;
+		}
+
+		.lesser {
+			color: #2a75d1;
+			border-color: #2a75d1;
+			background-color: white;
+		}
+		.lesser:hover {
+			background-color: #0a45a1;
+			color: white;
+			cursor: pointer;
+		}
+		.lesser:disabled {
+			background-color: #eeeeee;
+			border-color: #eeeeee;
+			color:white;
+		}
+
+		.least {
+			color: #2a75d1;
+			border: 0;
+			background-color: transparent;
+		}
+	}
+}
+
+

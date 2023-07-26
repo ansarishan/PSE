@@ -1,0 +1,106 @@
+div.mainHeader {
+	flex: 0 0 auto;
+  background-color: $logoColorDark;
+	display: flex;
+	justify-content: space-between;
+
+	border-bottom: 5px solid $logoColorLight;
+	padding: 6px 30px;
+
+	div.mainHeader-logo {
+		order: 0;
+		flex: 1 1 0px;
+	}
+
+	div.mainHeader-menu {
+		order: 0;
+
+		display: flex;
+		justify-content: flex-end;
+		padding-right: 20px;
+
+		div.mainHeader-menuItem {
+			color: $defaultTextColor;
+			font-size: 1.25em;
+			font-weight: 500;
+			margin-left: 32px;
+
+			display: flex;
+
+			a,button {
+				text-decoration: none;
+				color: $weakGray;
+			}
+
+			a {
+				// for vertical centering
+				align-self: center;
+			}
+
+			button#usernameMenuOpener > * {
+				pointer-events: none;
+			}
+		}
+	}
+
+	div.mainHeader-userDropdownWrapper {
+		position: absolute;
+
+		div.mainHeader-userDropdown {
+			margin-left: -80px;
+			margin-top: 48px;
+			padding: 10px 10px 10px 10px;
+			border: 1px solid black;
+			background-color: #e5e5e5;
+			width: 200px;
+
+			div.userInfo {
+				font-size: 20px;
+        margin-bottom: 10px;
+
+        div { margin-top: 0.5em; }
+				div.role {
+					font-weight: bold;
+					font-size: 0.8em;
+				}
+				div.name { }
+				div.org { }
+			}
+
+			div.logoutLink {
+				a {
+          text-decoration: none;
+          color: $defaultTextColor;
+        }
+				a:hover { color: red; }
+			}
+		}
+	}
+}
+
+div.mainContent {
+	flex: 1 0 auto;
+
+	// the following will make children expand to mainContent's height
+	display: flex;
+	flex-direction: row;
+	align-items: stretch;
+}
+
+/*
+   Looks like we might not be using a footer on main app pages.
+   TODO Take this out when I know for sure we won't need it.
+        Also delete the footer haml in layouts/application
+
+div.mainFooter {
+	flex-shrink: 0;
+
+	div.mainFooter-content {
+		color: white;
+		text-align: center;
+		background-color: #1a4969;
+		margin: 10px 165px;
+	}
+}
+*/
+

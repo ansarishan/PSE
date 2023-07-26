@@ -1,0 +1,129 @@
+%div.home
+  %div.band.title
+    = image_tag('fake-logo-pharmashares.png', style: 'max-width: 50%;')
+    %div.loginLinkContainer
+      - if(current_user)
+        = link_to('Dashboard', dashboard_path, class: 'linkAsButton')
+      - else
+        = link_to('Login', new_user_session_path, class: 'linkAsButton')
+
+  %div.band.description
+    %div.text
+      %p
+        %strong PharmaShares Exchange
+        (PSE) provides a private marketplace for accredited investors and qualified
+        institutional buyers to take long or short positions in individual
+        commercial drugs, without investing in the company manufacturing or
+        distributing the product.
+
+  %div.band.talking
+    %div.text
+      %p
+        %strong PSE
+        offers members the ability to take a bullish or
+        bearish position in a defined commercial pharmaceutical product (Humira, for
+        example) without taking any exposure to the stock of the publicly traded parent
+        (Abbvie, in the Humira example).   The public reporting of the quarterly net
+        sales of commercial healthcare assets (pharmaceutical products and divisions)
+        will serve as the defining parameter of the settlement of contracts on PSE.  A
+        position can be defined as net product sales within a defined region:
+        Worldwide, United States, International, Emerging Markets, or other region.
+      %p
+        The ability of PSE members to take positions of net sale of pharmaceutical (or
+        other products) within specific regions will depend on the scope of public
+        financial reporting by the marketing entity.  In certain cases, multiple
+        pharmaceutical companies will co-market a commercial product.  In those cases,
+        each company involved in the co-marketing will separately report its share of
+        the allocated worldwide sales, which will serve as the basis for PSE contracts
+        for the entity.
+
+  %div.band.talking
+    %div.text
+      %p
+        %strong The following graph illustrates the challenge for healthcare investors:
+        separating the performance of material pharmaceutical products from overall
+        corporate decisions of large cap pharmaceutical companies.  This graph
+        illustrates the relative performance over [2019] of Abbvie stock, Humira
+        Worldwide net sales,  Humira US net sales and Humira International net sales.
+        Material corporate events undertaken by Abbvie (such as the acquisition of
+        Allergan for $[63]bn) and material events associated with Humira (marketing in
+        therapeutic areas of plaque psoriasis and Crohn’s disease) may result in much
+        different results of the earnings and stock returns of Abbvie corporation from
+        Humira.
+      %div.picContainer
+        = image_tag('abbv-humira-price-chart.png')
+
+  %div.band.talking
+    %div.text
+      %p
+        The loss of exclusivity of a blockbuster commercial pharmaceutical product may
+        lead a company to engage in M&amp;A efforts to import additional commercial assets
+        and/or a pipeline of products onto the balance sheet.  Premiums paid for such
+        M&amp;A transactions may be value destructive to the shareholders an acquiring
+        company.  Meanwhile, new indications of existing products may products superior
+        returns when compared to the publicly traded stock.  Investors now have a
+        choice — PSE provides the forum to find a contract counterparty for the
+        desired, direct economic position in a specific healthcare product. 
+      %p
+        In addition to individual pharmaceutical drug exposure, members of PharmaShares
+        Exchange can take positions in divisions of a healthcare company.  For example,
+        a PSE member may not be interested in JNJ stock, but can execute a contract
+        based upon the projected net sales of Johnson &amp; Johnson’s Total Phamaceutical
+        Division.  Or, as another example, exposure to Medtronic‘s Restorative
+        Therapies Group may be executed instead of purchasing Medtronic common stock.
+
+  %div.band.talking
+    %div.text
+      %p
+        %strong The PharmaShares Exchange
+        does not, and will not, hold any equity in (or contract
+        rights with) the public companies marketing the pharmaceutical products on
+        which PSE members track changes of net sales for settlement.  Rather, it is the
+        direct interaction between PSE members that define the settlement terms of
+        their contracts.  
+      %p
+        Contracts may be for a quarter, half year, annual or multi-year; and the
+        contracts may be for the current of following period, or may be established on
+        a “forward start” basis for future periods.   These terms are based upon the
+        decisions of PSE members executing contracts.  
+      %p
+        Contracting members may negotiated for pre-paid or post-paid contract
+        settlement.  Members can be assured of settlement certainty of their
+        counterparty based upon standard letter of credit posting with a lending
+        institutional affiliated with PSE. 
+
+  %div.band.howItWorks
+
+    %div.head How It Works
+
+    %div.steps
+      %div.step
+        %div.icon
+          = icon('fas', 'search')
+        %div.caption
+          %div.header Step 1
+          %div.flavor Pick a drug and time period
+
+      %div.step
+        %div.icon
+          = icon('fas', 'handshake')
+        %div.caption
+          %div.header Step 2
+          %div.flavor Agree to terms with a counterparty
+
+      %div.step
+        %div.icon
+          = icon('fas', 'hourglass-half')
+        %div.caption
+          %div.header Step 3
+          %div.flavor Wait for maturation
+
+      %div.step
+        %div.icon
+          = icon('fas', 'money-bill-wave')
+        %div.caption
+          %div.header Step 4
+          %div.flavor Money changes hands at settlement
+
+  %div.footer
+    %div &copy; 2020 PharmaShares Exchange

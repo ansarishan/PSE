@@ -1,0 +1,21 @@
+%div.primaryContainer
+  %div
+    %h1 Invite An Organization
+    %p The person who receives this email will be invited to onboard their organization.
+    %p This person will be <em>Org Admin</em> for their organization.
+
+    - if @invite.errors.any?
+      %h2 There #{'was'.pluralize(@invite.errors.count)} #{@invite.errors.count==1 ? 'an error' : "were #{@invite.errors.count} errors"}:
+      %ul
+        - @invite.errors.to_a.each do |err|
+          %li= err
+
+    = form_for(@invite, url: '/invites/create', html: { class: 'defaultForm' }) do |f|
+      .field{style: "width: 400px;"}
+        = f.label :email
+        %br/
+        = f.email_field :email
+
+      .actions
+        = f.submit 'Submit'
+

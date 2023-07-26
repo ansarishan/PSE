@@ -1,0 +1,33 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      ruby: 2.6
+    commands:
+      - sed 's/ruby-//' -i .ruby-version
+      - mv -f .ruby-version .ruby-version.bak
+      - rbenv install $(cat .ruby-version.bak)
+      - rbenv local $(cat .ruby-version.bak)
+  build:
+    commands:
+      - yarn install --check-files
+      - bundle install
+      - bundle exec rails db:migrate
+      - bundle exec rails db:seed
+      - CI_GENERATE_REPORTS=true bundle exec rake ci:all
+      - bundle exec cucumber --format junit --out features/reports/regression
+      - bundle exec cucumber --profile wip --format pretty --format junit --out features/reports/wip || true
+reports:
+  rpsec:
+    files:
+      - '**/*'
+    base-directory: spec/reports/
+  cucumber-regression:
+    files:
+      - '**/*'
+    base-directory: features/reports/regression/
+  cucumber-wip:
+    files:
+      - '**/*'
+    base-directory: features/reports/wip/

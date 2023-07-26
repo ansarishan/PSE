@@ -1,0 +1,274 @@
+%div.sidebarWrapper
+  = render 'shared/sidemenu'
+
+  %div.primaryContainer.bookPrimaryContainer{'data-controller': 'order-ticket-popper'}
+    = render 'shared/flash'
+
+    = render 'order_ticket'
+
+    %div.bookContainer
+      %h1
+        - arrow_icon = 'caret-right'
+        - trail = @drug_period.menu_trail
+        = trail[:region].name
+        = icon('fas', arrow_icon)
+        = trail[:company].name
+        = icon('fas', arrow_icon)
+        = trail[:drug].brand_name
+        = icon('fas', arrow_icon)
+        = trail[:period].period_type
+        = icon('fas', arrow_icon)
+        = trail[:period].label
+      - if current_user.trader?
+        %p.instrumentRow.tradeBespokeButton{'di-id': -1, 'di-net-rev-proj': 1, 'di-up-lev': 1, 'di-up-return-cap': 50, 'di-down-lev': 1, 'di-down-return-cap': 50, 'ups-allowed': true, 'downs-allowed': true}
+          %button.orderTicketPopper{'order-side': 'up', 'data-action': 'click->order-ticket-popper#show'}
+            = 'Create Bespoke Contract'
+
+      - if @drug_period.drug_instruments.count < 1
+        %p This book has no contracts.
+      - else
+        %table
+          %colgroup
+            %col{span: 6}
+            %col.netrev
+            %col{span: 6}
+          %tr
+            %th.actions
+            %th 
+              Open Amount<br/>
+              %span.weak (Thousands)
+            %th
+              Closed Amount<br/>
+              %span.weak (Thousands)
+            %th
+              Opened Amount<br/>
+              %span.weak (Thousands)
+            %th Leverage<br/>Factor
+            %th
+              Return Cap<br/>
+              %span.weak (Percentage)
+            %th.netrev
+              Net Revenue
+              %br/
+              Projection
+              %span.weak (Millions)
+            %th
+              Return Cap<br/>
+              %span.weak (Percentage)
+            %th Leverage<br/>Factor
+            %th
+              Opened Amount<br/>
+              %span.weak (Thousands)
+            %th
+              Closed Amount<br/>
+              %span.weak (Thousands)
+            %th
+              Open Amount<br/>
+              %span.weak (Thousands)
+            %th.actions
+
+          %tr.colorBars
+            %td.farLeft.actions
+            %td.farLeft
+            %td.left{colspan: 4}
+            %td.netrev
+            %td.right{colspan: 4}
+            %td.farRight
+            %td.farRight.actions
+
+          - @drug_period.drug_instruments.order(net_revenue_projection: :desc).each do |di|
+            - closed_vol = di.closed_vol
+            - up_open_vol = di.up_open_vol
+            - down_open_vol = di.down_open_vol
+
+            - up_orders = di.orders.open.where(side: 'up').order(amount: :desc)
+            - down_orders = di.orders.open.where(side: 'down').order(amount: :desc)
+
+            - my_ups = up_orders.where(side: 'up', organization: current_user.organization)
+            - my_downs = down_orders.where(side: 'down', organization: current_user.organization)
+
+            - user_is_up = my_ups.count > 0
+            - user_is_down = my_downs.count > 0
+
+            %tr.sourceRow
+              %th{colspan: 13}
+                %div.label= di.label.presence || '(Unlabeled Contract)'
+                - if di.source.present?
+                  %div.source= di.source
+
+            -# The attributes are used by the JS OrderTicketPopper
+            %tr.instrumentRow.coreContractRow{'di-id': di.id,
+              'di-up-lev': di.up_leverage_factor,
+              'di-up-return-cap': di.up_return_cap,
+              'di-net-rev-proj': di.net_revenue_projection,
+              'di-down-return-cap': di.down_return_cap,
+              'di-down-lev': di.down_leverage_factor,
+              'ups-allowed': !user_is_down,
+              'downs-allowed': !user_is_up }
+
+              %td.actions
+              %td.up.tradeButton
+                - if current_user.trader?
+                  %div.onFocus
+                    - if !user_is_down
+                      %button.orderTicketPopper{'order-side': 'up',
+                        'data-action': 'click->order-ticket-popper#show'}
+                        Trade
+                    - else
+                      %span{style: 'color: red'} Can't trade<br/>both sides
+
+              %td.up= closed_vol
+              %td.up= up_open_vol
+              %td.up= di.up_leverage_factor
+              %td.up= di.up_return_cap
+              %td.netrev= di.net_revenue_projection
+              %td.down= di.down_return_cap
+              %td.down= di.down_leverage_factor
+              %td.down= down_open_vol
+              %td.down= closed_vol
+
+              %td.down.tradeButton
+                - if current_user.trader?
+                  %div.onFocus
+                    - if !user_is_up
+                      %button.orderTicketPopper{'order-side': 'down',
+                        'data-action': 'click->order-ticket-popper#show'}
+                        Trade
+                    - else
+                      %span{style: 'color: red'} Can't trade<br/>both sides
+              %td.actions
+
+            - up_orders.each do |upo|
+              %tr.instrumentRow.tradeRow{class: ('myUp' if upo.organization==current_user.organization),
+                'di-id': di.id,
+                'di-up-lev': di.up_leverage_factor,
+                'di-up-return-cap': di.up_return_cap,
+                'di-net-rev-proj': di.net_revenue_projection,
+                'di-down-return-cap': di.down_return_cap,
+                'di-down-lev': di.down_leverage_factor,
+                'ups-allowed': !user_is_down,
+                'downs-allowed': !user_is_up }
+
+                %td.up.actions
+                  - if (upo.organization==current_user.organization) && current_user.trader?
+                    %div.onFocus.orderCancelIcon
+                      = link_to icon('far', 'times-circle'), upo, method: :delete, remote: true, class: 'orderCancelIcon', title: 'Cancel Order',
+                        data: { 'controller': 'confirm-modal',
+                                'action': 'ajax:beforeSend->confirm-modal#show',
+                                'target': 'confirm-modal.link',
+                                'confirm-text': 'Are you sure you wish to cancel this order? This action cannot be undone.',
+                                'confirm-title': 'Confirm Order Cancel',
+                                'confirm-commit': 'Yes, cancel the order',
+                                'confirm-cancel': 'No, do not cancel' }
+                %td.up.tradeButton
+                  = upo.amount
+                  -# if (upo.organization==current_user.organization) && current_user.trader?
+                    %div.onFocus
+                      %button.orderCancelIcon
+                        = link_to "Amend", upo, method: :delete, remote: true,
+                          data: { 'controller': 'confirm-modal',
+                                  'action': 'ajax:beforeSend->confirm-modal#show',
+                                  'target': 'confirm-modal.link',
+                                  'confirm-text': 'Are you sure you wish to cancel this order? This action cannot be undone.',
+                                  'confirm-title': 'Confirm Order Cancel',
+                                  'confirm-commit': 'Yes, cancel the order',
+                                  'confirm-cancel': 'No, do not cancel' }
+                    %div.offFocus
+                      = upo.amount
+                  -# else
+                    = upo.amount
+
+                %td.up
+                %td.up
+                %td.up
+                %td.up
+                %td.netrev= di.net_revenue_projection
+                %td.down
+                %td.down
+                %td.down
+                %td.down
+
+                %td.down.tradeButton
+                  - if current_user.trader?
+                    %div.onFocus
+                      - if upo.organization==current_user.organization
+                        Waiting<br/>for match
+                      - else
+                        - if user_is_up
+                          %span{style: 'color: red'} Can't trade<br/>both sides
+                        - else
+                          %button.orderTicketPopper{'order-side': 'down',
+                            'amount-is-fixed': true,
+                            'match-order': upo.id,
+                            'initial-amount': upo.amount,
+                            'data-action': 'click->order-ticket-popper#show'}
+                            Match<br/>Order
+                %td.actions
+
+            - down_orders.each do |downo|
+              %tr.instrumentRow.tradeRow{class: ('myDown' if downo.organization==current_user.organization),
+                'di-id': di.id,
+                'di-up-lev': di.up_leverage_factor,
+                'di-up-return-cap': di.up_return_cap,
+                'di-net-rev-proj': di.net_revenue_projection,
+                'di-down-return-cap': di.down_return_cap,
+                'di-down-lev': di.down_leverage_factor,
+                'ups-allowed': !user_is_down,
+                'downs-allowed': !user_is_up }
+
+                %td.actions
+                %td.up.tradeButton
+                  - if current_user.trader?
+                    %div.onFocus
+                      - if downo.organization==current_user.organization
+                        Waiting<br/>for match
+                      - else
+                        - if user_is_down
+                          %span{style: 'color: red'} Can't trade<br/>both sides
+                        - else
+                          %button.orderTicketPopper{'order-side': 'up',
+                            'amount-is-fixed': true,
+                            'match-order': downo.id,
+                            'initial-amount': downo.amount,
+                            'data-action': 'click->order-ticket-popper#show'}
+                            Match<br/>Order
+
+                %td.up
+                %td.up
+                %td.up
+                %td.up
+                %td.netrev= di.net_revenue_projection
+                %td.down
+                %td.down
+                %td.down
+                %td.down
+
+                %td.down.tradeButton
+                  = downo.amount
+                  -# if (downo.organization==current_user.organization) && current_user.trader?
+                    %div.onFocus
+                      %button.orderCancelIcon
+                        = link_to "Amend", downo, method: :delete, remote: true,
+                          data: { 'controller': 'confirm-modal',
+                                  'action': 'ajax:beforeSend->confirm-modal#show',
+                                  'target': 'confirm-modal.link',
+                                  'confirm-text': 'Are you sure you wish to cancel this order? This action cannot be undone.',
+                                  'confirm-title': 'Confirm Order Cancel',
+                                  'confirm-commit': 'Yes, cancel the order',
+                                  'confirm-cancel': 'No, do not cancel' }
+                    %div.offFocus
+                      = downo.amount
+                  -# else
+                    = downo.amount
+                %td.down.actions
+                  - if (downo.organization==current_user.organization) && current_user.trader?
+                    %div.onFocus.orderCancelIcon
+                      = link_to icon('far', 'times-circle'), downo, method: :delete, remote: true, class: 'orderCancelIcon', title: 'Cancel Order',
+                        data: { 'controller': 'confirm-modal',
+                                'action': 'ajax:beforeSend->confirm-modal#show',
+                                'target': 'confirm-modal.link',
+                                'confirm-text': 'Are you sure you wish to cancel this order? This action cannot be undone.',
+                                'confirm-title': 'Confirm Order Cancel',
+                                'confirm-commit': 'Yes, cancel the order',
+                                'confirm-cancel': 'No, do not cancel' }
+

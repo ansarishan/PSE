@@ -1,0 +1,10 @@
+%h1 Organization Onboarding Complete
+
+%div.bigCheck= icon('fas', 'check-circle')
+
+%div.onboardingContainer-completed-paras
+  %p Emails have been sent to the Legal, Trader and optional Analyst roles for login. 
+  %p Click below to Login.
+
+%div.onboardingContainer-completed-actions
+  = link_to('Login', new_user_session_path, class: 'linkAsButton')

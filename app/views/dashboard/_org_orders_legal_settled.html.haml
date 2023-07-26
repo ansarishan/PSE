@@ -1,0 +1,33 @@
+%div.orgOrdersContainer
+  %table
+    %colgroup
+      %col.middle{span: 6}
+    %tr
+      %th.tableTitle{colspan: 6}
+        %h2= orders_title
+    %tr
+      %th.center.actions
+      %th.center Drug
+      %th.center Period
+      %th.center.wider Profit/Loss
+      %th.center.wider
+        Net Revenue
+        %br/
+        Actual
+      %th.center.wider
+        Net Revenue
+        %br/
+        Projection
+    - if orders.count < 1
+      %tr
+        %td.tableTitle{colspan: 6}
+          = "You do not have any #{orders_desc}."
+    -else
+      - orders.each do |ord|
+        %tr.instrumentRow
+          %td.actions= link_to 'View', edit_order_path(ord)
+          %td= ord.drug_instrument.drug_period.drug.brand_name
+          %td= ord.drug_instrument.drug_period.label
+          %td= number_to_currency(ord.pnl)
+          %td= "#{number_to_currency(ord.drug_instrument.net_revenue_actual)} MM"
+          %td= "#{number_to_currency(ord.drug_instrument.net_revenue_projection)} MM"

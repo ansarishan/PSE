@@ -1,0 +1,170 @@
+.calculatorContainer {
+	z-index: 30;
+	position: absolute;
+	top: 150px;
+	left: 600px;
+	width: 500px;
+
+	border: 1px solid #e3e3e3;
+
+	background-color: white;
+	box-shadow: 3px 3px 6px rgba(0,0,0,0.15);
+	border-radius: 6px;
+
+	font-size: 16px;
+
+	padding-bottom: 30px;
+
+	hr.littleBar {
+		display: inline-block;
+		width: 30px;
+		height: 5px;
+		vertical-align: middle;
+		border-width: 3px 0 0 0;
+		border-style: solid;
+		border-color: $defaultTextColor;
+		margin-right: 5px;
+	}
+
+	$calcGreen: #53d220;
+	$calcRed:   #f5222e;
+
+	.green {
+		color: $calcGreen;
+		hr.littleBar { border-color: $calcGreen; }
+	}
+	.red {
+		color: $calcRed;
+		hr.littleBar { border-color: $calcRed; }
+	}
+
+	div.closeButtonContainer {
+		border-top-left-radius: 6px;
+		border-top-right-radius: 6px;
+		border-width: 1px 1px 0 1px;
+		border-color: #e3e3e3;
+
+		background-color: #f2f2f2;
+		text-align: right;
+
+		button {
+			margin-right: 10px;
+			margin-top: 10px;
+			font-size: 26px;
+			color: #bbbbbb;
+			
+			i { padding: 4px 8px; }
+			i:hover { background-color: #e5eaee; }
+		}
+	}
+
+	div.row {
+		padding: 10px 46px;
+
+		div.label, div.val, div.field, div.halfField, div.empty, div.header {
+			display: inline-block;
+			box-sizing: border-box;
+			vertical-align: top;
+		}
+
+		div.label { font-weight: bold; }
+		.units { font-weight: normal; font-size: 14px; }
+
+		div.val, div.field, div.halfField { text-align: right; }
+
+		div.val { font-weight: bold; }
+	}
+
+	div.row.topline {
+		border-top: #eeeeee 1px solid;
+	}
+
+	div.row.info {
+		div.label { width: 60%; }
+		div.val {
+			width: 38%;
+			text-align: right;
+		}
+	}
+
+	div.row.currentProjection {
+		background-color: #f2f2f2;
+
+		div.val { padding-right: 10px; }
+	}
+
+	div.row.input {
+		div.label { width: 39%; }
+		div.field { width: 58%; }
+		div.halfField { width: 29%; }
+		input[type=number] { text-align: right; width: 100%; }
+		div.label.vcenter { padding-top: 10px; }
+	}
+
+	div.row.headers {
+		padding-bottom: 0;
+		div.empty { width: 39%; }
+		div.header {
+			width: 29%;
+			text-align: center;
+			font-weight: bold;
+			font-size: 14px;
+		}
+	}
+
+	div.field.yourSideToggle {
+		text-align: center !important;
+		vertical-align: top;
+		color: #cccccc;
+
+		$toggleHeight: 25px;
+
+		div.toggleAboveLabel, div.toggleBelowLabel {
+			display: inline-block;
+			height: $toggleHeight;
+			line-height: $toggleHeight;
+			font-weight: bold;
+			border: solid 1px transparent;
+			padding: 0 2px;
+		}
+
+		div.toggleAboveLabel.active { border-color: $calcGreen; color: $calcGreen; }
+		div.toggleBelowLabel.active { border-color: $calcRed; color: $calcRed; }
+
+		// special thanks to https://proto.io/freebies/onoff/
+		.toggleswitch {
+			display: inline-block;
+			position: relative; width: 90px;
+			-webkit-user-select:none; -moz-user-select:none; -ms-user-select: none;
+			vertical-align: bottom;
+		}
+		.toggleswitch-checkbox {
+			display: none;
+		}
+		.toggleswitch-label {
+			display: block; overflow: hidden; cursor: pointer;
+			height: $toggleHeight; padding: 0; line-height: $toggleHeight;
+			border: 2px solid $calcGreen; border-radius: $toggleHeight;
+			background-color: $calcGreen;
+			transition: background-color 0.1s ease-in;
+		}
+		.toggleswitch-label:before {
+			content: "";
+			display: block; width: $toggleHeight; margin: 0px;
+			background: #FFFFFF;
+			position: absolute; top: 0; bottom: 0;
+			right: 61px;
+			border: 2px solid $calcGreen; border-radius: $toggleHeight;
+			transition: all 0.1s ease-in 0s; 
+		}
+		.toggleswitch-checkbox:checked + .toggleswitch-label {
+			background-color: $calcRed;
+		}
+		.toggleswitch-checkbox:checked + .toggleswitch-label, .toggleswitch-checkbox:checked + .toggleswitch-label:before {
+			border-color: $calcRed;
+		}
+		.toggleswitch-checkbox:checked + .toggleswitch-label:before {
+			right: 0px; 
+		}
+        }
+}

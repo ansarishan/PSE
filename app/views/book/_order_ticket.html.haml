@@ -1,0 +1,131 @@
+%div.orderTicketContainer.hidden{'data-target': 'order-ticket-popper.ticket',
+                                 'data-controller': 'calculator'}
+  = render 'calculator'
+
+  %div.orderTicket
+    %h1 Place an Order for the following:
+
+    %div.staticDataContainer
+      %div.row
+        %div.label Parent Company
+        %div.value= @drug_period.drug.drug_company.name
+      %div.row
+        %div.label Drug Brand Name
+        %div.value= @drug_period.drug.brand_name
+      %div.row
+        %div.label Region of Sales
+        %div.value= @drug_period.region.name
+      %div.row
+        %div.label Projection Period
+        %div.value= @drug_period.label
+      %div.row
+        %div.label
+          Trailing Net Revenue
+          %div.units (in Millions USD)
+        %div.value TBA
+
+    =form_for(:order, url: '/tradables/create') do |f|
+      %div.formContainer
+
+        =f.hidden_field(:drug_instrument_id, 'data-target': 'order-ticket-popper.drugInstrumentId')
+        =f.hidden_field(:drug_period_id, value: @drug_period.id)
+
+        %div.row.sideHeaders
+          %div.label
+          %div.sideHeader
+            Up Side
+            %br/
+            %span{'data-target': 'order-ticket-popper.visibleWhenUp'} (You)
+            %span.counter{'data-target': 'order-ticket-popper.visibleWhenDown'} (Counter)
+          %div.sideHeader
+            Down Side
+            %br/
+            %span{'data-target': 'order-ticket-popper.visibleWhenDown'} (You)
+            %span.counter{'data-target': 'order-ticket-popper.visibleWhenUp'} (Counter)
+
+        %div.row.shade
+          %div.label
+            Covered Period Projection
+            %div.moreInfo
+              Choose whether your prediction
+              will be above or below either the
+              Street prediction or a prediction
+              of your own.
+          %div.upside
+            %div{'data-target': 'order-ticket-popper.visibleWhenUp'}
+              %div.calc
+                %button{onclick: 'return false', 'data-action': 'click->calculator#show', 'order-side': 'up'}
+                  Calculator
+                  = icon('fas', 'calculator')
+              %div.sublabel Your Projection
+              %div.val
+                =f.number_field(:net_revenue_projection, step: 0.00001, 'data-target': 'calculator.ticketUpProjection order-ticket-popper.enabledWhenUp order-ticket-popper.netRevenueProjection')
+                MM
+            %div{'data-target': 'order-ticket-popper.visibleWhenDown'}
+              %button.toggler{onclick: 'return false', 'data-action': 'click->order-ticket-popper#showUpElements'} Trade Upside Instead
+          %div.downside
+            %div{'data-target': 'order-ticket-popper.visibleWhenDown'}
+              %div.calc
+                %button{onclick: 'return false', 'data-action': 'click->calculator#show', 'order-side': 'down'}
+                  Calculator
+                  = icon('fas', 'calculator')
+              %div.sublabel Your Projection
+              %div.val
+                =f.number_field(:net_revenue_projection, step: 0.00001, 'data-target': 'calculator.ticketDownProjection order-ticket-popper.enabledWhenDown order-ticket-popper.netRevenueProjection')
+                MM
+            %div{'data-target': 'order-ticket-popper.visibleWhenUp'}
+              %button.toggler{onclick: 'return false', 'data-action': 'click->order-ticket-popper#showDownElements'} Trade Downside Instead
+
+        %div.row#amountInputRow
+          %div.label
+            Trading Amount
+            %div.units
+              (in Thousands;
+              %br/
+              increments of 50)
+                      
+          %div.upside
+            %div{'data-target': 'order-ticket-popper.visibleWhenUp'}
+              =f.number_field(:amount, min: 50, step: 50, 'data-target': 'calculator.ticketUpAmount order-ticket-popper.enabledWhenUp order-ticket-popper.amount')
+              =f.hidden_field(:side, value: 'up', 'data-target': 'order-ticket-popper.enabledWhenUp')
+            %div.vcenter{'data-target': 'order-ticket-popper.visibleWhenDown'}
+
+          %div.downside
+            %div{'data-target': 'order-ticket-popper.visibleWhenDown'}
+              =f.number_field(:amount, min: 50, step: 50, 'data-target': 'calculator.ticketDownAmount order-ticket-popper.enabledWhenDown order-ticket-popper.amount')
+              =f.hidden_field(:side, value: 'down', 'data-target': 'order-ticket-popper.enabledWhenDown')
+            %div.vcenter{'data-target': 'order-ticket-popper.visibleWhenUp'}
+
+
+        %div.row.shade
+          %div.label Return Cap
+          %div.upside
+            =f.number_field(:up_return_cap, min: 1, step: 1, 'data-target': 'calculator.ticketAboveReturnCap order-ticket-popper.upReturnCap')
+            \%
+          %div.downside
+            =f.number_field(:down_return_cap, min: 1, step: 1, 'data-target': 'calculator.ticketBelowReturnCap order-ticket-popper.downReturnCap')
+            \%
+
+        %div.row
+          %div.label Leverage Factor
+          %div.upside
+            =f.number_field(:up_leverage_factor, min: 1, step: 1, 'data-target': 'calculator.ticketAboveLeverage order-ticket-popper.upLeverageFactor')
+            x
+          %div.downside
+            =f.number_field(:down_leverage_factor, min: 1, step: 1, 'data-target': 'calculator.ticketBelowLeverage order-ticket-popper.downLeverageFactor')
+            x
+
+        %div.row{'data-target': 'order-ticket-popper.visibleWhenHasCounterOrderId'}
+          %hr/
+          %div.label Submission Style:
+          %div.upside
+            = f.radio_button(:type, "Order", checked: true)
+            = label_tag(:type_order, "Send to the order book")
+          %div.downside
+            = f.radio_button(:type, "Quote")
+            = label_tag(:type_order, "Send private quote to counterparty")
+
+      %div.actions
+        %button.lesser{onclick: 'return false', 'data-action': 'click->order-ticket-popper#hide'} Cancel
+        = f.hidden_field(:counter_order_id, 'data-target': 'order-ticket-popper.hiddenCounterOrderId')
+        = f.submit 'Submit'

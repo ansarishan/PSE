@@ -1,0 +1,10 @@
+%p Hello #{@trader.name_for_display},
+
+%p The instrument for #{@drug_period.drug.drug_company.name}, #{@drug_period.drug.brand_name}, #{ @drug_period.label} has settled with a revenue announcement of #{@drug_period.net_revenue_actual} million.
+
+%p Please refer to your dashboard for details and refer to legal parties to settle.
+
+%blockquote Order id=#{@order.id} / Trade id=#{@order.trade.id}
+
+%p Thanks for trading on PharmaShares!
+

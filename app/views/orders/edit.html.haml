@@ -1,0 +1,151 @@
+
+%div.orderTicketContainer
+  %div.orderTicket.wider
+    %div
+    = render 'shared/flash'
+
+    %h1 Request to enter into an ISDA Swap Agreement
+
+    %div.staticDataContainer
+      %div.row.separator
+      %div.row
+        %div.label Region
+        %div.value= @order.drug_period.region.name
+      %div.row
+        %div.label Parent Company
+        %div.value= @order.drug_period.drug.drug_company.name
+      %div.row
+        %div.label Drug Brand Name
+        %div.value= @order.drug_period.drug.brand_name
+      %div.row
+        %div.label Projection Period
+        %div.value= @order.drug_period.label
+      %div.row.separator
+      %div.row
+        %div.label Counterparty
+        %div.value= @order.counterparty_order.organization.name
+      %div.row
+        %div.label Trade State
+        %div.value= @order.trade.state.upcase
+      %div.row.separator
+      %div.row
+        %div.row
+          %div.label
+            Net Revenue Actual
+          - if @order.drug_instrument.net_revenue_actual.nil?
+            %div.value TBD
+          - else
+            %div.value= "#{number_to_currency(@order.drug_instrument.net_revenue_actual)} MM"
+      %div.row
+        %div.label Profit/Loss
+        - if @order.pnl.nil?
+          %div.value TBD
+        - else
+          %div.value= number_to_currency(@order.pnl)
+
+    %div.formContainer
+      %div.row.sideHeaders
+        %div.label
+        %div.sideHeader
+          Up Side
+          %br/
+          - if @order.up?
+            %span (You)
+          - else
+            %span (Counter)
+        %div.sideHeader
+          Down Side
+          %br/
+          - if @order.down?
+            %span (You)
+          - else
+            %span (Counter)
+
+      %div.row.shade
+        %div.label
+          Covered Period Projection
+        %div.upside
+          - if @order.up?
+            %div
+              %div.sublabel Your Projection
+              %div.val
+                %span= number_to_currency(@order.drug_instrument.net_revenue_projection)
+                MM
+        %div.downside
+          - if @order.down?
+            %div
+              %div.sublabel Your Projection
+              %div.val
+                %span= @order.drug_instrument.net_revenue_projection
+                MM
+
+      %div.row#amountInputRow
+        %div.label
+          Trading Amount
+          %div.units (in Thousands)
+        %div.upside
+          %div{'data-target': 'order-ticket-popper.visibleWhenUp'}
+            = @order.trade.above.amount
+          %div.vcenter{'data-target': 'order-ticket-popper.visibleWhenDown'}
+
+        %div.downside
+          %div{'data-target': 'order-ticket-popper.visibleWhenDown'}
+            = @order.trade.below.amount
+          %div.vcenter{'data-target': 'order-ticket-popper.visibleWhenUp'}
+
+
+      %div.row.shade
+        %div.label Return Cap
+        %div.upside
+          %span= @order.drug_instrument.up_return_cap
+          \%
+        %div.downside
+          %span= @order.drug_instrument.down_return_cap
+          \%
+
+      %div.row
+        %div.label Leverage Factor
+        %div.upside
+          %span= @order.drug_instrument.up_leverage_factor
+          x
+        %div.downside
+          %span= @order.drug_instrument.down_leverage_factor
+          x
+
+      %div.row.shade
+        %div.label Order State
+        %div.upside
+          %span= @order.trade.above.state.upcase
+        %div.downside
+          %span= @order.trade.below.state.upcase
+
+    %div.actions
+      =button_to 'Cancel Contract', order_cancel_contract_path(@order), method: :patch, remote: true, class: 'danger',
+        disabled: (@order.trade&.maturing? || @order.trade&.settled? || @order.trade&.expired? || @order.canceled? || @order.expired?),
+        data: { 'controller': 'confirm-modal',
+                'action': 'click->confirm-modal#show',
+                'target': 'confirm-modal.link',
+                'confirm-text': 'Are you sure you wish to cancel this contract?',
+                'confirm-title': 'Canceling Contract',
+                'confirm-commit': 'Yes, cancel the contract',
+                'confirm-cancel': 'No, go back' }
+      =button_to 'Start Contract', order_start_contract_path(@order), method: :patch, remote: true,
+        disabled: !@order.accepted?,
+        data: { 'controller': 'confirm-modal',
+                'action': 'click->confirm-modal#show',
+                'target': 'confirm-modal.link',
+                'confirm-text': 'Are you sure you wish to start this contract?',
+                'confirm-title': 'Starting Contract',
+                'confirm-commit': 'Yes, start the contract',
+                'confirm-cancel': 'No, go back' }
+      =button_to 'Confirm Contract', order_confirm_contract_path(@order), method: :patch, remote: true,
+        disabled: !@order.legal_working?,
+        data: { 'controller': 'confirm-modal',
+                'action': 'click->confirm-modal#show',
+                'target': 'confirm-modal.link',
+                'confirm-text': 'Are you sure you wish to confirm this contract?',
+                'confirm-title': 'Confirming Contract',
+                'confirm-commit': 'Yes, confirm the contract',
+                'confirm-cancel': 'No, go back' }
+    %div.actions
+      = link_to 'Back', dashboard_url

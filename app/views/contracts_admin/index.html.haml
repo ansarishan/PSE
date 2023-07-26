@@ -1,0 +1,56 @@
+%div.primaryContainer.contractsAdminContainer
+
+  = render 'shared/flash'
+
+  %h1 Markets
+
+  - Region.all.order(:name).each do |reg|
+    %h2 Region: #{reg.name}
+
+    - reg.drug_companies.order(:name).each do |drugco|
+      %div.drugco
+        %h3= drugco.name
+
+        - drugco.drugs.order(:brand_name).each do |drug|
+          %div.drug
+            %h4= drug.brand_name
+
+            - periods_by_type = periods_tree(drug)
+            - periods_by_type.keys.sort.each do |period_type|
+              %div.period_type
+                %h5= period_type
+
+                - periods_by_type[period_type].each do |drug_period| #will probably need to sort by type here later
+                  %div.period
+                    %h6= drug_period.label
+                    -# %span.status{class: drug_period.status}= drug_period.status
+
+                    -# if drug_period.closed?
+                      =link_to 'Open this market', contracts_admin_open_path(drug_period), method: :put, remote: true, class: 'linkAsButton',
+                        data: { 'controller': 'confirm-modal',
+                          'action': 'ajax:beforeSend->confirm-modal#show',
+                          'target': 'confirm-modal.link',
+                          'confirm-text': drug_period.display_name,
+                          'confirm-title': 'Open this market?',
+                          'confirm-commit': 'Yes, open this market',
+                          'confirm-cancel': 'Nevermind' }
+
+                    -# if drug_period.open?
+                      =link_to 'Close this market', contracts_admin_close_path(drug_period), method: :put, remote: true, class: 'linkAsButton',
+                        data: { 'controller': 'confirm-modal',
+                          'action': 'ajax:beforeSend->confirm-modal#show',
+                          'target': 'confirm-modal.link',
+                          'confirm-text': drug_period.display_name,
+                          'confirm-title': 'Close this market?',
+                          'confirm-commit': 'Yes, close this market',
+                          'confirm-cancel': 'Nevermind' }
+
+                    - unless drug_period.expired?
+                      =link_to 'Expire this market', contracts_admin_expire_form_path(drug_period), class: 'linkAsButton expire'
+
+
+                    %ul
+                      - drug_period.drug_instruments.order(:net_revenue_projection).each do |di|
+                        %li
+                          %span.terms= di.terms_to_s
+

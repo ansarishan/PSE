@@ -1,0 +1,26 @@
+%div.primaryContainer
+  %h1 Invitation Management
+
+  = render 'shared/flash'
+
+  %div
+    =link_to("Invite an organization", :invites_new)
+
+  - if @open_invites.count < 1
+    %p There are no open invites at this time.
+
+  - else
+    %p The following invites are active and incomplete.
+    %p <strong>WARNING: Following any invite link will log you out!</strong>
+    %ul
+      - @open_invites.each do |oi|
+        %li{style: 'margin-bottom: 20px;'}
+          %strong= oi.email + ':'
+          - if oi.user.try(:has_signed_eula)
+            signed up as "#{oi.user.username}" and agreed to terms
+          - elsif oi.user
+            signed up as "#{oi.user.username}" but has <strong>NOT</strong> agreed to terms
+          - else
+            no response
+          %br/
+          Invite url: #{oi.invite_url}

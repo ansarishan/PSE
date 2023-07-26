@@ -1,0 +1,70 @@
+div.orgOrdersContainer {
+	h1 {
+		margin-top: 10px;
+		margin-bottom: 20px;
+		font-size: 16px;
+		color: #40B3ED;
+	}
+
+	table {
+		border: 1px solid #cccccc;
+		border-collapse: collapse;
+		background-color: white;
+
+		col.middle { background-color: #e0eaf2; }
+
+		th,td {
+			min-width: 90px;
+			text-align: center;
+			white-space: nowrap;
+			padding-left: 5px;
+			padding-right: 5px;
+		}
+
+		th.wider,td.wider {
+			min-width: 120px;
+		}
+
+		th {
+			height: 44px;
+			font-size: 13px;
+			font-weight: bold;
+			padding-bottom: 4px;
+			color: #143E64;
+			border-bottom: 8px solid gray;
+			vertical-align: bottom;
+			line-height: 20px;
+
+			.weak { font-weight: normal; }
+		}
+
+		th.farLeft { border-bottom-color: $hardGreen; }
+		th.left { border-bottom-color: $focusGreen; }
+		th.center { border-bottom-color: #506e89; }
+		th.right { border-bottom-color: $focusRed; }
+		th.farRight { border-bottom-color: $hardRed; }
+
+		td {
+			height: 38px;
+			font-size: 12px;
+			border-bottom: 2px solid #D6E5F1;
+		}
+
+    th.actions, td.actions {
+      text-align: right;
+      min-width: 10px;
+      padding-left: 1em;
+      padding-right: 1em;
+    }
+    td.actions i { font-size: 1.2em; }
+    td.actions a:visited {color: $defaultTextColor; }
+    td.actions a:link { color: $defaultTextColor; }
+    td.actions a.orderCancelIcon:hover { color: $hardRed; }
+    td.actions a.quoteAcceptIcon:hover { color: $logoColorLight; }
+
+    th.tableTitle, td.tableTitle {
+      text-align: left;
+      border: 0;
+    }
+	}
+}

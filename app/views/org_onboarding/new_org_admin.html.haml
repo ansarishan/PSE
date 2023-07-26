@@ -1,0 +1,27 @@
+%h1 Set Your Username + Password
+
+-# TODO this isn't right yet
+- if @user.errors.any?
+  %h2 There #{'was'.pluralize(@user.errors.count)} #{@user.errors.count==1 ? 'an error' : "were #{@user.errors.count} errors"}:
+  %ul
+    - @user.errors.to_a.each do |err|
+      %li= err
+
+%div.onboardingContainer-formContainer
+  = form_for(@user, url: '/org_onboarding/create_org_admin', html: { class: 'defaultForm' }) do |f|
+    .field
+      = f.label :username
+      %br/
+      = f.text_field :username, autofocus: true, autocomplete: "username"
+    .field
+      = f.label :password
+      %br/
+      = f.password_field :password, autocomplete: "off"
+    .field
+      = f.label :password_confirmation, "Confirm Password"
+      %br/
+      = f.password_field :password_confirmation, autocomplete: "off"
+    .actions
+      -# TODO: make this button inactive until user/pass has value; active should be blue
+      = f.submit "Next >"
+

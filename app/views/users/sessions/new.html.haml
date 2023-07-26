@@ -1,0 +1,27 @@
+%div.signin
+  %div.signin-imageContainer
+    = image_tag('fake-logo-pharmashares.png', style: 'max-width: 50%;')
+  %div.signin-formContainer
+    %h1 Welcome Back
+
+    = render 'shared/flash'
+
+    = form_for(resource, as: resource_name, url: session_path(resource_name), html: { class: 'defaultForm'} ) do |f|
+      .field
+        = f.label :username
+        %br/
+        = f.text_field :username, autofocus: true, autocomplete: "username"
+      .field
+        = f.label :password
+        %br/
+        = f.password_field :password, autocomplete: "current-password"
+      - if devise_mapping.rememberable?
+        .field
+          = f.check_box :remember_me
+          = f.label :remember_me
+      .actions
+        -# TODO: make this button inactive until user/pass has value; active should be blue
+        = f.submit "Login"
+    = render "devise/shared/links"
+
+    %div.signin-copyright &copy; 2020 PharmaShares Exchange. All Rights Reserved.

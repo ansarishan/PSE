@@ -1,0 +1,25 @@
+%div.sidebarWrapper
+
+  %div.primaryContainer
+    = render 'shared/flash'
+
+    %div.legalDashboardContainer
+      %p
+      = render partial: 'org_orders_legal', locals: { orders: current_user.organization.orders.trade_pending,
+                                                      orders_title: 'Pending Requests',
+                                                      orders_desc: 'pending requests' }
+
+      %p
+      = render partial: 'org_orders_legal', locals: { orders: current_user.organization.orders.trade_maturing,
+                                                      orders_title: 'Maturing Orders',
+                                                      orders_desc: 'maturing orders' }
+
+      %p
+      = render partial: 'org_orders_legal_settled', locals: { orders: current_user.organization.orders.trade_settled,
+                                                              orders_title: 'Settled Orders',
+                                                              orders_desc: 'settled orders' }
+
+      %p
+      = render partial: 'org_orders_legal', locals: { orders: current_user.organization.orders.trade_canceled_or_expired,
+                                                      orders_title: 'Canceled or Expired Orders',
+                                                      orders_desc: 'canceled or expired orders' }

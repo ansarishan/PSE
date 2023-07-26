@@ -1,0 +1,63 @@
+%div.sidebarContainer{'data-controller': 'sidebar-popper'}
+  %div.sidebarHandle
+    %button.sidebarHandle-menuButton{'data-action': 'click->sidebar-popper#popout'}
+      = icon('fas', 'bars')
+  %div.sidebarMenuContainer.hidden{'data-target': 'sidebar-popper.sidebar'}
+    %div.sidebarMenu-closeButtonContainer
+      %button#closeSidemenuButton{'data-action': 'click->sidebar-popper#hide'}
+        = icon('fas', 'times')
+
+    %div.sidebarMenu-header Region of Sales:
+
+    - initial_region_id, initial_company_id, initial_drug_id, initial_period_type, initial_drug_period_id = sidemenu_trail(@drug_period)
+    - initial_region_id ||= Region.default.id
+
+    %div{'data-controller': 'region-switcher', 'data-region-switcher-initial-value': initial_region_id}
+
+      %div.sidebarMenu-regionDropdownContainer
+        %select{name: 'regions', id: 'region-select', 'data-action': 'change->region-switcher#onChange'}
+          - @sidemenu[:regions].each do |reg|
+            %option{value: reg[:id], selected: initial_region_id==reg[:id]}= reg[:name]
+
+      %div.sidebarMenu-companyExpanders
+
+        - @sidemenu[:regions].sort_by {|reg| reg[:name]}.each do |reg|
+
+          %div.hidden{'data-target': 'region-switcher.companies', 'region-id': reg[:id]}
+
+            - region_companies = reg[:companies] || []
+            - region_companies.sort_by {|co| co[:name]}.each do |co|
+
+              %div.companyExpander{'data-controller': 'company-expander', 'data-company-expander-start-state': sidemenu_open_close_state(initial_company_id,co[:id]) }
+                %div.company
+                  %button{'data-action': 'click->company-expander#toggle'}
+                    = icon('fas', 'plus', 'data-target': 'company-expander.icon')
+                    = co[:name]
+
+                %div.drugExpanders.hidden{'data-target': 'company-expander.drugs'}
+                  - co[:drugs].sort_by {|drug| drug[:brand_name]}.each do |drug|
+
+                    %div.drugExpander{'data-controller': 'drug-expander', 'data-drug-expander-start-state': sidemenu_open_close_state(initial_drug_id,drug[:id]) }
+                      %div.drug
+                        %button{'data-action': 'click->drug-expander#toggle'}
+                          = icon('fas', 'plus', 'data-target': 'drug-expander.icon')
+                          = drug[:brand_name]
+
+                      %div.periodTypeExpanders.hidden{'data-target': 'drug-expander.periodTypes'}
+                        - drug[:period_types].keys.sort.each do |ptype|
+                          - periods_of_type = drug[:period_types][ptype].select {|dp| dp[:status] != 'expired'}
+                          - next if periods_of_type.empty?
+
+                          %div.periodTypeExpander{'data-controller': 'period-type-expander', 'data-period-type-expander-start-state': sidemenu_open_close_state(initial_period_type, ptype) }
+                            %div.periodType
+                              %button{'data-action': 'click->period-type-expander#toggle'}
+                                = icon('fas', 'plus', 'data-target': 'period-type-expander.icon')
+                                = ptype
+
+                            %div.periods.hidden{'data-target': 'period-type-expander.periods'}
+                              - periods_of_type.sort_by {|dp| dp[:label]}.each do |dp|
+                                - if dp[:id]==initial_drug_period_id
+                                  = link_to(dp[:label], book_path(dp[:id]), class: 'selectedPeriod')
+                                - else
+                                  = link_to(dp[:label], book_path(dp[:id]))
+

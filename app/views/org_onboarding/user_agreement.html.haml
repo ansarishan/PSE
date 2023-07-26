@@ -1,0 +1,13 @@
+%div.onboardingContainer-eulaContainer
+  %p User Agreement
+  %div.mockTextarea= OrgOnboardingController::EULA
+
+%div.onboardingContainer-formContainer
+  - if @didnt_sign
+    %div.error You must indicate that you agree with these terms in order to continue.
+  = form_for(:agreement, url: '/org_onboarding/signed_user_agreement', html: { class: 'defaultForm' }) do |f|
+    .field
+      = f.check_box :i_agree
+      = f.label :i_agree, "I agree to this"
+    .actions.no-top-margin
+      = f.submit "Next >"

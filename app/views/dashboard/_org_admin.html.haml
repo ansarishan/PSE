@@ -1,0 +1,11 @@
+%div.primaryContainer
+  %h1 Temporary org-admin dashboard
+
+  %h2 Users for #{current_user.organization.name}
+
+  %ul
+    - current_user.organization.users.each do |user|
+      %li
+        %strong= user.role
+        = user.username.presence || "#{user.email} not yet onboarded"
+
