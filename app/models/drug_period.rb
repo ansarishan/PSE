@@ -3,15 +3,16 @@ class DrugPeriod < ApplicationRecord
   belongs_to :drug, inverse_of: :drug_periods
   has_many :drug_instruments, inverse_of: :drug_period, dependent: :destroy
   has_one :drug_company, through: :drug
-
+  serialize :special_situation_array, Array
   enum status: {
     closed: 0,
     open: 1,
     expired: 2
   }
 
+ 
   VALID_TYPES = ['Quarterly', 'Semi-annual', 'Annual']
-
+  
   validates :label, presence: true,
                     uniqueness: { scope: :drug_id, message: 'has already been taken for this drug' }
   validates :drug, presence: true
@@ -19,6 +20,7 @@ class DrugPeriod < ApplicationRecord
                           inclusion: { in: VALID_TYPES }
   validate :status_transition
 
+  
   def status_transition
     if !self.net_revenue_actual.nil? && (self.expired? == false)
       errors.add(:drug_period, "Status must be expired when Net Revenue Actual is not blank")
@@ -39,4 +41,15 @@ class DrugPeriod < ApplicationRecord
       period: self
     }
   end
+
+ # Getter method to convert the comma-separated string to an array
+ def special_situation_array
+  self.special_situation.split(',').map(&:strip) if self.special_situation.present?
+end
+
+# Setter method to convert the array to a comma-separated string
+def special_situation_array=(values)
+  self.special_situation = values.reject(&:blank?).join(', ')
+end
+
 end
