@@ -1,7 +1,7 @@
 class Drug < ApplicationRecord
   belongs_to :drug_company, inverse_of: :drugs
   has_many :drug_periods, inverse_of: :drug, dependent: :destroy
-
+  serialize :special_situation_array, Array
   validates :drug_company, presence: true
   validates :brand_name, presence: true,
                          uniqueness: { scope: :drug_company_id, message: 'has already been taken for this company' }
@@ -18,4 +18,20 @@ class Drug < ApplicationRecord
     end
     { id: id, brand_name: brand_name, period_types: period_types }
   end
+  # Getter method to convert the comma-separated string to an array
+  def special_situation_array
+    if self.special_situation.present?
+      self.special_situation.split(',').map(&:strip)
+    else
+      []
+    end
+  end
+
+# Setter method to convert the array to a comma-separated string
+def special_situation_array=(values)
+  self.special_situation = values.reject(&:blank?).join(', ')
+end
+def organizations_names
+  Organization.where(id: special_situation_array).pluck(:name).join(', ')
+end
 end

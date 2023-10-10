@@ -3,8 +3,7 @@ ActiveAdmin.register DrugPeriod do
                 :prediction_period_date_range,
                 :trailing_period_date_range,
                 :status,
-                :net_revenue_actual,
-                :special_situation
+                :net_revenue_actual
 
   config.batch_actions = false
 
@@ -16,7 +15,6 @@ ActiveAdmin.register DrugPeriod do
     column :period_type
     column :status
     column :net_revenue_actual
-    column :special_situation
     actions
   end
 
@@ -30,7 +28,6 @@ ActiveAdmin.register DrugPeriod do
       row :prediction_period_date_range
       row :trailing_period_date_range
       row :net_revenue_actual
-      row :special_situation
       row :status
       row :created_at
       row :updated_at
@@ -48,11 +45,8 @@ ActiveAdmin.register DrugPeriod do
       f.input :trailing_period_date_range
       f.input :net_revenue_actual
       f.input :status, as: :select, collection: DrugPeriod.statuses.keys
-      f.input :special_situation_array,  as: :check_boxes  , collection: Organization.all.map { |c| [c.name, c.id] }
     end
     f.actions
   end
-  before_save do |model|
-    model.special_situation = params[:drug_period][:special_situation_array].join(',') if params[:drug_period][:special_situation_array].is_a?(Array)
-  end
+  
 end
