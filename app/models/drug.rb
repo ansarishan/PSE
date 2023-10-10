@@ -16,7 +16,7 @@ class Drug < ApplicationRecord
       period_types[dp.period_type] ||= []
       period_types[dp.period_type] << { id: dp.id, label: dp.label, status: dp.status }
     end
-    { id: id, brand_name: brand_name, period_types: period_types }
+    { id: id, brand_name: brand_name, period_types: period_types, special_situation: special_situation }
   end
   # Getter method to convert the comma-separated string to an array
   def special_situation_array
