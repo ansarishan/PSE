@@ -36,7 +36,8 @@
                     = co[:name]
 
                 %div.drugExpanders.hidden{'data-target': 'company-expander.drugs'}
-                  - co[:drugs].sort_by {|drug| drug[:brand_name]}.each do |drug|
+                  - filtered_drugs = co[:drugs].reject  { |co| co[:special_situation]&.include?(current_user.organization.id.to_s) }
+                  - filtered_drugs.sort_by {|drug| drug[:brand_name]}.each do |drug|
 
                     %div.drugExpander{'data-controller': 'drug-expander', 'data-drug-expander-start-state': sidemenu_open_close_state(initial_drug_id,drug[:id]) }
                       %div.drug
@@ -62,15 +63,16 @@
                                 - else
                                   = link_to(dp[:label], book_path(dp[:id]))  
 
-            - region_companies = reg[:companies] || []
-            - filtered_companies = region_companies.select { |co| co[:name] }
-            - region_companies.sort_by {|co| co[:name]}.each do |co|    
-              %div.companyExpander{'data-controller': 'company-expander', 'data-company-expander-start-state': sidemenu_open_close_state(initial_company_id,co[:id]) }
-                %div.company
-                  %button{'data-action': 'click->company-expander#toggle'}
-                    = icon('fas', 'plus', 'data-target': 'company-expander.icon')
-                    = 'Special Situation'
-                %div.drugExpanders.hidden{'data-target': 'company-expander.drugs'}
+   
+            %div.companyExpander{'data-controller': 'company-expander', 'data-company-expander-start-state': sidemenu_open_close_state(initial_company_id,-1) }
+              %div.company
+                %button{'data-action': 'click->company-expander#toggle'}
+                  = icon('fas', 'plus', 'data-target': 'company-expander.icon')
+                  = 'Special Situation'
+              %div.drugExpanders.hidden{'data-target': 'company-expander.drugs'}
+                - region_companies = reg[:companies] || []
+                - filtered_companies = region_companies.select { |co| co[:name] }
+                - region_companies.sort_by {|co| co[:name]}.each do |co|
                   - filtered_drugs = co[:drugs].select { |co| co[:special_situation]&.include?(current_user.organization.id.to_s) }
                   - filtered_drugs.each do |drug|
 
@@ -78,4 +80,21 @@
                       %div.drug
                         %button{'data-action': 'click->drug-expander#toggle'}
                           = icon('fas', 'plus', 'data-target': 'drug-expander.icon')
-                          = drug[:special_situation]
+                          = drug[:brand_name]
+                      %div.periodTypeExpanders.hidden{'data-target': 'drug-expander.periodTypes'}
+                        - drug[:period_types].keys.sort.each do |ptype|
+                          - periods_of_type = drug[:period_types][ptype].select {|dp| dp[:status] != 'expired'}
+                          - next if periods_of_type.empty?
+
+                          %div.periodTypeExpander{'data-controller': 'period-type-expander', 'data-period-type-expander-start-state': sidemenu_open_close_state(initial_period_type, ptype) }
+                            %div.periodType
+                              %button{'data-action': 'click->period-type-expander#toggle'}
+                                = icon('fas', 'plus', 'data-target': 'period-type-expander.icon')
+                                = ptype
+
+                            %div.periods.hidden{'data-target': 'period-type-expander.periods'}
+                              - periods_of_type.sort_by {|dp| dp[:label]}.each do |dp|
+                                - if dp[:id]==initial_drug_period_id
+                                  = link_to(dp[:label], book_path(dp[:id]), class: 'selectedPeriod')
+                                - else
+                                  = link_to(dp[:label], book_path(dp[:id]))
