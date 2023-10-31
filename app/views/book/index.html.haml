@@ -65,8 +65,11 @@
             %th
               Open Amount<br/>
               %span.weak (Thousands)
+           
             %th.actions
-
+            %th
+              Notes<br/>
+              %span.weak  .
           %tr.colorBars
             %td.farLeft.actions
             %td.farLeft
@@ -74,13 +77,15 @@
             %td.netrev
             %td.right{colspan: 4}
             %td.farRight
+            
             %td.farRight.actions
+            %td.netrev
 
           - @drug_period.drug_instruments.order(net_revenue_projection: :desc).each do |di|
             - closed_vol = di.closed_vol
             - up_open_vol = di.up_open_vol
             - down_open_vol = di.down_open_vol
-
+            - notes = di.notes  
             - up_orders = di.orders.open.where(side: 'up').order(amount: :desc)
             - down_orders = di.orders.open.where(side: 'down').order(amount: :desc)
 
@@ -91,7 +96,7 @@
             - user_is_down = my_downs.count > 0
 
             %tr.sourceRow
-              %th{colspan: 13}
+              %th{colspan: 14}
                 %div.label= di.label.presence || '(Unlabeled Contract)'
                 - if di.source.present?
                   %div.source= di.source
@@ -104,7 +109,9 @@
               'di-down-return-cap': di.down_return_cap,
               'di-down-lev': di.down_leverage_factor,
               'ups-allowed': !user_is_down,
-              'downs-allowed': !user_is_up }
+              'downs-allowed': !user_is_up,
+              'notes': di.notes,
+               }
 
               %td.actions
               %td.up.tradeButton
@@ -126,7 +133,7 @@
               %td.down= di.down_leverage_factor
               %td.down= down_open_vol
               %td.down= closed_vol
-
+              
               %td.down.tradeButton
                 - if current_user.trader?
                   %div.onFocus
@@ -137,7 +144,7 @@
                     - else
                       %span{style: 'color: red'} Can't trade<br/>both sides
               %td.actions
-
+              %td.down= notes
             - up_orders.each do |upo|
               %tr.instrumentRow.tradeRow{class: ('myUp' if upo.organization==current_user.organization),
                 'di-id': di.id,
@@ -187,7 +194,7 @@
                 %td.down
                 %td.down
                 %td.down
-
+                %td.down
                 %td.down.tradeButton
                   - if current_user.trader?
                     %div.onFocus
@@ -242,7 +249,7 @@
                 %td.down
                 %td.down
                 %td.down
-
+                %td.down
                 %td.down.tradeButton
                   = downo.amount
                   -# if (downo.organization==current_user.organization) && current_user.trader?

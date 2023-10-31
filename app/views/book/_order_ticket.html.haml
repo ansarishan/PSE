@@ -114,7 +114,11 @@
           %div.downside
             =f.number_field(:down_leverage_factor, min: 1, step: 1, 'data-target': 'calculator.ticketBelowLeverage order-ticket-popper.downLeverageFactor')
             x
-
+        %div.row.shade
+          %div.label Notes
+          %div
+            = f.text_area(:notes, placeholder: "Enter notes", rows: 5, cols: 65)
+                      
         %div.row{'data-target': 'order-ticket-popper.visibleWhenHasCounterOrderId'}
           %hr/
           %div.label Submission Style:

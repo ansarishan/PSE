@@ -54,7 +54,8 @@ class DrugInstrument < ApplicationRecord
       up_leverage_factor:     attrs[:up_leverage_factor] || orig_drug_instrument.up_leverage_factor,
       up_return_cap:          attrs[:up_return_cap] || orig_drug_instrument.up_return_cap,
       down_leverage_factor:   attrs[:down_leverage_factor] || orig_drug_instrument.down_leverage_factor,
-      down_return_cap:        attrs[:down_return_cap] || orig_drug_instrument.down_return_cap
+      down_return_cap:        attrs[:down_return_cap] || orig_drug_instrument.down_return_cap,
+      notes:        attrs[:notes] || orig_drug_instrument.notes
     ) do |di|
       di.label = "Bespoke Contract / #{Time.now.to_s(:drug_instrument_date)}"
     end

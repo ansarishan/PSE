@@ -14,6 +14,7 @@ ActiveAdmin.register Order do
     column :side
     column :amount
     column :drug_instrument
+    column :notes
     column :organization
     actions
   end
@@ -25,6 +26,7 @@ ActiveAdmin.register Order do
       row :side
       row :amount
       row :drug_instrument
+      row :notes
       row :organization
       row :created_at
       row :updated_at
@@ -40,6 +42,7 @@ ActiveAdmin.register Order do
       f.input :amount, hint: "in thousands, interval of 50"
       f.input :drug_instrument, member_label: :debug_name
       f.input :organization
+      f.input :drug_instrument, member_label: :notes
     end
     f.actions
   end

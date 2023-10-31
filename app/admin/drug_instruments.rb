@@ -3,7 +3,7 @@ ActiveAdmin.register DrugInstrument do
     :up_leverage_factor, :down_leverage_factor,
     :up_return_cap, :down_return_cap,
     :net_revenue_projection,
-    :label, :source
+    :label, :source, :notes
 
   config.batch_actions = false
 
@@ -17,6 +17,7 @@ ActiveAdmin.register DrugInstrument do
     column :net_revenue_projection
     column(:down_return_cap) {|di| "#{di.down_return_cap}%" }
     column(:down_leverage_factor) {|di| "#{di.down_leverage_factor}x" }
+    column(:notes)
     actions
   end
 
@@ -32,6 +33,7 @@ ActiveAdmin.register DrugInstrument do
       row :net_revenue_projection
       row(:down_return_cap) {|di| "#{di.down_return_cap}%" }
       row(:down_leverage_factor) {|di| "#{di.down_leverage_factor}x" }
+      row :notes
     end
   end
 
@@ -48,6 +50,7 @@ ActiveAdmin.register DrugInstrument do
       f.input :net_revenue_projection, hint: 'decimal (in millions, e.g. "8.5" means 8.5 MM)', min: 0
       f.input :down_return_cap, hint: 'a percent value expressed in integer', min: 0
       f.input :down_leverage_factor, hint: 'integer; is a multiplier', min: 0
+      f.input :notes
     end
     f.actions
   end
