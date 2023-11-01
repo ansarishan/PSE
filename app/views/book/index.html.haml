@@ -144,7 +144,8 @@
                     - else
                       %span{style: 'color: red'} Can't trade<br/>both sides
               %td.actions
-              %td.down= notes
+              %td.down{title:notes}
+                %span{style: 'color: gray'} Notes
             - up_orders.each do |upo|
               %tr.instrumentRow.tradeRow{class: ('myUp' if upo.organization==current_user.organization),
                 'di-id': di.id,
