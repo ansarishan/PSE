@@ -144,8 +144,16 @@
                     - else
                       %span{style: 'color: red'} Can't trade<br/>both sides
               %td.actions
-              %td.down{title:notes}
-                %span{style: 'color: gray'} Notes
+              %td.down.tradeButton
+                - if notes.present?
+                  %button.orderTicketPopper{'style': 'width:50px;height:20px;padding-top: 4px;','order-side': 'down',
+                    'data-action': 'click->order-ticket-popper#showNotes',
+                    'data-notes':notes
+                    
+                    }
+                    Notes
+                - else
+                  %span{style: 'color: white'} 
             - up_orders.each do |upo|
               %tr.instrumentRow.tradeRow{class: ('myUp' if upo.organization==current_user.organization),
                 'di-id': di.id,

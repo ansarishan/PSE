@@ -1,5 +1,7 @@
 import { Controller } from 'stimulus'
-
+function test(){
+  alert('dsfdsf')
+}
 export default class extends Controller {
   static targets = ['ticket',
     'drugInstrumentId',
@@ -47,6 +49,7 @@ export default class extends Controller {
   }
 
   show(event) {
+    console.log('show')
     this.activeSide = event.target.attributes['order-side'].value
 
     var parentAtts = event.target.closest(".instrumentRow").attributes
@@ -98,7 +101,12 @@ export default class extends Controller {
 
     this.ticketTarget.classList.remove('hidden')
   }
+  showNotes(event) {
+    
+   // console.log('show123',event.target.attributes['data-notes'].value)
 
+  alert("Notes: "+event.target.attributes['data-notes'].value)
+  }
   hide() {
     this.ticketTarget.classList.add('hidden')
   }
