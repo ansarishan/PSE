@@ -24,4 +24,10 @@ class Region < ApplicationRecord
   def drug_companies
     DrugCompany.where(id: DrugPeriod.includes(:drug_company).where(region_id: self.id).pluck(:drug_company_id).uniq)
   end
+
+  def self.is_drug_companies_ss(organization_id)
+    organization_id_string = "%#{organization_id}%"
+    result = Drug.where("special_situation LIKE ?", organization_id_string)
+    result.count > 0
+  end
 end
