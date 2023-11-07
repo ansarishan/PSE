@@ -7,7 +7,11 @@ class LoggedInController < ApplicationController
   def set_header_menu
     @header_menu_items = []
     @header_menu_items << { text: 'Dashboard', url: dashboard_path }
-    if current_user.admin?
+      if Region.drug_companies_ss(current_user.organization_id)
+      @header_menu_items << { text: 'Docs', url: dashboard_path }
+      end
+    
+      if current_user.admin?
       @header_menu_items << { text: 'Markets', url: contracts_admin_path }
       @header_menu_items << { text: 'User list', url: userlist_path }
       @header_menu_items << { text: 'Invites', url: invites_path }
