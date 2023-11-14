@@ -80,7 +80,7 @@
             
             %td.farRight.actions
             %td.netrev
-
+          - greatest_di = @drug_period.drug_instruments.order(net_revenue_projection: :desc).max_by(&:id)
           - @drug_period.drug_instruments.order(net_revenue_projection: :desc).each do |di|
             - closed_vol = di.closed_vol
             - up_open_vol = di.up_open_vol
@@ -110,7 +110,7 @@
               'di-down-lev': di.down_leverage_factor,
               'ups-allowed': !user_is_down,
               'downs-allowed': !user_is_up,
-              'notes': di.notes,
+              'notes': di.notes
                }
 
               %td.actions
@@ -163,7 +163,9 @@
                 'di-down-return-cap': di.down_return_cap,
                 'di-down-lev': di.down_leverage_factor,
                 'ups-allowed': !user_is_down,
-                'downs-allowed': !user_is_up }
+                'downs-allowed': !user_is_up,
+                
+                 }
 
                 %td.up.actions
                   - if (upo.organization==current_user.organization) && current_user.trader?
@@ -176,7 +178,7 @@
                                 'confirm-title': 'Confirm Order Cancel',
                                 'confirm-commit': 'Yes, cancel the order',
                                 'confirm-cancel': 'No, do not cancel' }
-                %td.up.tradeButton
+                %td.up.tradeButton{'style': di.id == greatest_di.id ? 'background: yellow' : ''}
                   = upo.amount
                   -# if (upo.organization==current_user.organization) && current_user.trader?
                     %div.onFocus
@@ -230,7 +232,10 @@
                 'di-down-return-cap': di.down_return_cap,
                 'di-down-lev': di.down_leverage_factor,
                 'ups-allowed': !user_is_down,
-                'downs-allowed': !user_is_up }
+                'downs-allowed': !user_is_up,
+                'style': di.id == greatest_di.id ? 'background: yellow' : ''
+                
+                 }
 
                 %td.actions
                 %td.up.tradeButton
@@ -259,7 +264,7 @@
                 %td.down
                 %td.down
                 %td.down
-                %td.down.tradeButton
+                %td.down.tradeButton{'style': di.id == greatest_di.id ? 'background: yellow' : ''}
                   = downo.amount
                   -# if (downo.organization==current_user.organization) && current_user.trader?
                     %div.onFocus
