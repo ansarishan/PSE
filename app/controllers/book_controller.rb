@@ -3,6 +3,7 @@ class BookController < LoggedInController
 
   def index
     @drug_period = DrugPeriod.find_by(id: params[:drug_period_id])
+    @is_ss = Region.drug_companies_ss(current_user.organization_id)
     if @drug_period.nil?
       # TODO log what url did this
       redirect_to dashboard_path, alert: 'That URL does not point to a valid instrument.'

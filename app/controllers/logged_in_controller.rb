@@ -8,7 +8,9 @@ class LoggedInController < ApplicationController
     @header_menu_items = []
     @header_menu_items << { text: 'Dashboard', url: dashboard_path }
       if Region.drug_companies_ss(current_user.organization_id)
-      @header_menu_items << { text: 'Docs', url: dashboard_path }
+        unless current_user.admin? || current_user.organization.ss_link.blank?
+          @header_menu_items << { text: 'Doc', url: current_user.organization.ss_link, target: '_blank' }
+        end
       end
     
       if current_user.admin?
