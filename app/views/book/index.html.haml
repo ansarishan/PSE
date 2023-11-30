@@ -27,6 +27,12 @@
       - if @drug_period.drug_instruments.count < 1
         %p This book has no contracts.
       - else
+        - max_id = nil
+        - @drug_period.drug_instruments.order(net_revenue_projection: :desc).each do |di|
+          - greatest_di_up = di.orders.open.where(side: 'up').order(amount: :desc).max_by(&:id)
+          - greatest_di_down = di.orders.open.where(side: 'down').order(amount: :desc).max_by(&:id)
+          - max_id = [max_id, greatest_di_up&.id, greatest_di_down&.id].compact.max
+          
         %table
           %colgroup
             %col{span: 6}
@@ -80,7 +86,7 @@
             
             %td.farRight.actions
             %td.netrev
-          - greatest_di = @drug_period.drug_instruments.order(net_revenue_projection: :desc).max_by(&:id)
+
           - @drug_period.drug_instruments.order(net_revenue_projection: :desc).each do |di|
             - closed_vol = di.closed_vol
             - up_open_vol = di.up_open_vol
@@ -88,7 +94,8 @@
             - notes = di.notes  
             - up_orders = di.orders.open.where(side: 'up').order(amount: :desc)
             - down_orders = di.orders.open.where(side: 'down').order(amount: :desc)
-
+            - greatest_di_up = di.orders.open.where(side: 'up').order(amount: :desc).max_by(&:id)
+            - greatest_di_down = di.orders.open.where(side: 'down').order(amount: :desc).max_by(&:id)
             - my_ups = up_orders.where(side: 'up', organization: current_user.organization)
             - my_downs = down_orders.where(side: 'down', organization: current_user.organization)
 
@@ -178,7 +185,7 @@
                                 'confirm-title': 'Confirm Order Cancel',
                                 'confirm-commit': 'Yes, cancel the order',
                                 'confirm-cancel': 'No, do not cancel' }
-                %td.up.tradeButton{'style': di.id == greatest_di.id ? 'background: yellow' : ''}
+                %td.up.tradeButton{'style': upo.id == max_id ? 'background: yellow' : ''}
                   = upo.amount
                   -# if (upo.organization==current_user.organization) && current_user.trader?
                     %div.onFocus
@@ -233,7 +240,7 @@
                 'di-down-lev': di.down_leverage_factor,
                 'ups-allowed': !user_is_down,
                 'downs-allowed': !user_is_up,
-                'style': di.id == greatest_di.id ? 'background: yellow' : ''
+                'style': di.id == max_id ? 'background: yellow' : ''
                 
                  }
 
@@ -264,7 +271,7 @@
                 %td.down
                 %td.down
                 %td.down
-                %td.down.tradeButton{'style': di.id == greatest_di.id ? 'background: yellow' : ''}
+                %td.down.tradeButton{'style': down.id == max_id ? 'background: yellow' : ''}
                   = downo.amount
                   -# if (downo.organization==current_user.organization) && current_user.trader?
                     %div.onFocus
