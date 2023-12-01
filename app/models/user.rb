@@ -60,9 +60,9 @@ class User < ApplicationRecord
   end
 
   def org_doesnt_have_this_role_already
-    return if (role.nil? || organization.nil?)
-    if (organization.users.to_a - [self]).any?{|u| u.role==self.role}
-      errors.add(:organization, 'already has a user of this type')
-    end
+    #return if (role.nil? || organization.nil?)
+    #if (organization.users.to_a - [self]).any?{|u| u.role==self.role}
+      #errors.add(:organization, 'already has a user of this type')
+    #end
   end
 end
