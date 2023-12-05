@@ -75,10 +75,8 @@
 
               %div.companyExpander{'data-controller': 'company-expander', 'data-company-expander-start-state': sidemenu_open_close_state(initial_company_id,-1) }
                 %div.company
-                  %button{'data-action': 'click->company-expander#toggle'}
-                    = icon('fas', 'plus', 'data-target': 'company-expander.icon')
-                    = 'Special Situation'
-                %div.drugExpanders.hidden{'data-target': 'company-expander.drugs'}
+                  
+                %div.drugExpanders{'data-target': 'company-expander.drugs'}
                   - region_companies = reg[:companies] || []
                   - filtered_companies = region_companies.select { |co| co[:name] }
                   - region_companies.sort_by {|co| co[:name]}.each do |co|
