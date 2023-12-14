@@ -136,3 +136,24 @@
         %button.lesser{onclick: 'return false', 'data-action': 'click->order-ticket-popper#hide'} Cancel
         = f.hidden_field(:counter_order_id, 'data-target': 'order-ticket-popper.hiddenCounterOrderId')
         = f.submit 'Submit'
+        
+    :javascript
+      document.addEventListener('DOMContentLoaded', function() {
+        var notesTextArea = document.getElementById('order_notes');
+        var orderRadioButton = document.getElementById('order_type_order');
+        var quoteRadioButton = document.getElementById('order_type_quote');
+        console.log('fgfg');
+        function toggleNotesVisibility() {
+           console.log('fgfgqqq');
+          notesTextArea.style.display = quoteRadioButton.checked ? 'block' : 'none';
+        }
+          toggleNotesVisibility();
+        // Add event listener to the radio button to toggle visibility
+          quoteRadioButton.addEventListener('change', toggleNotesVisibility);
+          orderRadioButton.addEventListener('change', toggleNotesVisibility);
+        });
+          
+          
+
+
+    
