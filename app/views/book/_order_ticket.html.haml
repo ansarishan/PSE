@@ -118,18 +118,18 @@
             =f.number_field(:down_leverage_factor, min: 1, step: 1, 'data-target': 'calculator.ticketBelowLeverage order-ticket-popper.downLeverageFactor')
             x
         %div.row.shade
-          %div.label Notes
+          %div#lblNotes.label{:style => "display:none;"} Notes
           %div
-            = f.text_area(:notes, placeholder: "Enter notes", rows: 5, cols: 65)
+            = f.text_area(:notes, placeholder: "Enter notes", rows: 5, cols: 65,hidden: true)
                       
         %div.row{'data-target': 'order-ticket-popper.visibleWhenHasCounterOrderId'}
           %hr/
           %div.label Submission Style:
           %div.upside
-            = f.radio_button(:type, "Order", checked: true)
+            = f.radio_button(:type, "Order", checked: true, onchange:"toggleNotesVisibility()")
             = label_tag(:type_order, "Send to the order book")
           %div.downside
-            = f.radio_button(:type, "Quote")
+            = f.radio_button(:type, "Quote", onchange: "toggleNotesVisibility()")
             = label_tag(:type_order, "Send private quote to counterparty")
 
       %div.actions
@@ -138,20 +138,16 @@
         = f.submit 'Submit'
         
     :javascript
-      document.addEventListener('DOMContentLoaded', function() {
+      function toggleNotesVisibility() {
+           var lblNotes = document.getElementById('lblNotes');
         var notesTextArea = document.getElementById('order_notes');
         var orderRadioButton = document.getElementById('order_type_order');
         var quoteRadioButton = document.getElementById('order_type_quote');
-        console.log('fgfg');
-        function toggleNotesVisibility() {
-           console.log('fgfgqqq');
           notesTextArea.style.display = quoteRadioButton.checked ? 'block' : 'none';
+          lblNotes.style.display = quoteRadioButton.checked ? 'block' : 'none';
+          
         }
-          toggleNotesVisibility();
-        // Add event listener to the radio button to toggle visibility
-          quoteRadioButton.addEventListener('change', toggleNotesVisibility);
-          orderRadioButton.addEventListener('change', toggleNotesVisibility);
-        });
+
           
           
 
